@@ -1,0 +1,135 @@
+.registration-form {
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  .registration-form h3{
+    color: #201658;
+  }
+  .header{
+    background-color: #1d2b53;
+    height: 100px;
+    padding-top: 10px;
+  }
+  form{
+    margin-top: -20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  #uploadimg{
+    border: none;
+  }
+  
+  label {
+    background-color: #201658;
+    color: white;
+    text-align: center;
+    width: 160px;
+    padding: 5px ;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 22px; /* Adjust top position to move label above input */
+    left: 40px; /* Adjust left position for alignment */
+  }
+
+  input,
+  select {
+    width: 94%;
+    padding: 10px;
+    height: 40px;
+    border: 3px solid #201658;
+    border-radius: 8px;
+  }
+  
+  button {
+    margin: auto;
+    text-align: center;
+    background-color: #98abee;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: larger;
+    width: 250px;
+    border-radius: 10px;
+  }
+  
+  .user-photo {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .preview-section {
+    margin-top: 20px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid #201658;
+    border-radius: 10px ;
+    padding: 10px;
+  }
+
+  #brandName{
+    width: 100%;
+    height: 60px;
+  }
+
+  #userPhoto{
+    padding-top: 30px;
+    border: none;
+  }
+
+  .upload{
+    margin-left: -40px;
+    width: 97%;
+  }
+
+  .fdiv{
+    text-align: right;
+    margin-right: 5px;
+  }
+
+  .fdiv p{
+    font-size: 13px;
+  }
+  
+  .user-photo{
+    height: 130px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    form {
+      padding: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+  
+    input,
+    select,
+    button {
+      padding: 8px;
+    }
+  
+  
+  }
+  
