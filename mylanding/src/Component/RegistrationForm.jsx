@@ -208,7 +208,7 @@ export const RegistrationForm = () => {
       {/* Preview section */}
       {showPreview && (
         <div className="preview-section">
-          <h3>Preview</h3>
+          <h3 className="upload">Preview</h3>
           <div className="card">
             <div className="card-content">
               <div className="fdiv">
