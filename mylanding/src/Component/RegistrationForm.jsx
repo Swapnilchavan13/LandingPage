@@ -38,6 +38,21 @@ export const RegistrationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+     // Validation for phone number and pincode
+  const phoneNumberRegex = /^\d{10}$/;
+  const pincodeRegex = /^\d{6}$/;
+
+  if (!phoneNumberRegex.test(formData.phoneNumber)) {
+    alert("Please enter a valid 10-digit phone number.");
+    return;
+  }
+
+  if (!pincodeRegex.test(formData.pincode)) {
+    alert("Please enter a valid 6-digit pincode.");
+    return;
+  }
+  
     setShowPreview(true);
   };
 
@@ -208,7 +223,7 @@ export const RegistrationForm = () => {
       {/* Preview section */}
       {showPreview && (
         <div className="preview-section">
-          <h3 className="upload">Preview</h3>
+          <h3>Preview</h3>
           <div className="card">
             <div className="card-content">
               <div className="fdiv">
