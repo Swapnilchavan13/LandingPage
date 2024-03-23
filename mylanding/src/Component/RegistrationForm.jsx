@@ -39,20 +39,20 @@ export const RegistrationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-     // Validation for phone number and pincode
-  const phoneNumberRegex = /^\d{10}$/;
-  const pincodeRegex = /^\d{6}$/;
+    // Validation for phone number and pincode
+    const phoneNumberRegex = /^\d{10}$/;
+    const pincodeRegex = /^\d{6}$/;
 
-  if (!phoneNumberRegex.test(formData.phoneNumber)) {
-    alert("Please enter a valid 10-digit phone number.");
-    return;
-  }
+    if (!phoneNumberRegex.test(formData.phoneNumber)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
 
-  if (!pincodeRegex.test(formData.pincode)) {
-    alert("Please enter a valid 6-digit pincode.");
-    return;
-  }
-  
+    if (!pincodeRegex.test(formData.pincode)) {
+      alert("Please enter a valid 6-digit pincode.");
+      return;
+    }
+
     setShowPreview(true);
   };
 
@@ -82,8 +82,8 @@ export const RegistrationForm = () => {
   }
 
   return (
-        <div className="registration-form">
-    <div className="header">
+    <div className="registration-form">
+      <div className="header">
         <img src="01Stree.png" width="280px" alt="" />
       </div>
       <h3>Registration Form</h3>
@@ -184,26 +184,26 @@ export const RegistrationForm = () => {
             name="userPhoto"
             onChange={handlePhotoChange}
             accept="image/*"
-            style={{display:'none'}}
+            style={{ display: 'none' }}
             required
           />
-         {formData.userPhoto ? (
-  <img
-    src={URL.createObjectURL(formData.userPhoto)}
-    alt="User"
-    className="user-photo"
-  />
-) : (
-  <label id="uploadimg" className="upload" htmlFor="userPhoto">
-  <img
-    src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-    alt="Default User"
-    className="user-photo"
-  />
-  </label>
-)}
+          {formData.userPhoto ? (
+            <img
+              src={URL.createObjectURL(formData.userPhoto)}
+              alt="User"
+              className="user-photo"
+            />
+          ) : (
+            <label id="uploadimg" className="upload" htmlFor="userPhoto">
+              <img
+                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+                alt="Default User"
+                className="user-photo"
+              />
+            </label>
+          )}
         </div>
-       <div className="form-group">
+        <div className="form-group">
           <label htmlFor="brandName">Brand Name:</label>
           <select
             id="brandName"
@@ -215,9 +215,9 @@ export const RegistrationForm = () => {
             <option value="">Select Brand</option>
             <option value="Myntra">Myntra</option>
           </select>
-        </div> 
+        </div>
 
-         <button type="submit">Submit & Preview</button> 
+        <button type="submit">Submit & Preview</button>
       </form>
 
       {/* Preview section */}
@@ -233,7 +233,7 @@ export const RegistrationForm = () => {
                   alt="Stree Logo"
                 />
                 <h4>{formData.userName}</h4>
-                <p style={{marginTop:'-20px'}}>Member From: {formattedDate}</p>
+                <p style={{ marginTop: '-20px' }}>Member From: {formattedDate}</p>
                 <img
                   style={{ width: "70px" }}
                   src="https://www.hellotech.com/guide/wp-content/uploads/2020/05/HelloTech-qr-code.jpg"
