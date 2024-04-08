@@ -1,0 +1,45 @@
+/* styles/clicker.css */
+
+.containerclicker {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .label {
+    display: block;
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  .inputField,
+  .selectField,
+  .submitButton {
+    width: 250px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .submitButton {
+    background-color: #007bff;
+    margin-top: 50px;
+    width: 400px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  

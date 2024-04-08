@@ -41,7 +41,7 @@
   }
 
   input,
-  select {
+  select, option {
     width: 94%;
     padding: 10px;
     height: 40px;

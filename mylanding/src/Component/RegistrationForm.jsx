@@ -1,18 +1,23 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import "../styles/register.css";
 
 export const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     userName: "",
     phoneNumber: "",
-    cardId: generateCardId(),
-    emailId: "",
-    addressOne: "",
-    pincode: "",
+    cardID: generateCardId(),
+    emailID: "",
+    address: "",
+    pinCode: "",
     city: "",
-    dob: "",
-    userPhoto: null,
-    brandName: "",
+    dateOfBirth: "",
+    dateTime: "",
+    languageSpoken:"",
+    loginPIN: 12334,
+    brand:"",
+    photo:"",
+
   });
 
   const [showPreview, setShowPreview] = useState(false);
@@ -30,31 +35,53 @@ export const RegistrationForm = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      userPhoto: file,
-    });
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      // Convert the image file to a Blob object
+      const blob = new Blob([reader.result], { type: file.type });
+      setFormData({
+        ...formData,
+        photo: blob,
+      });
+    };
+  
+    if (file) {
+      reader.readAsArrayBuffer(file);
+    }
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     // Validation for phone number and pincode
     const phoneNumberRegex = /^\d{10}$/;
     const pincodeRegex = /^\d{6}$/;
-
+  
     if (!phoneNumberRegex.test(formData.phoneNumber)) {
       alert("Please enter a valid 10-digit phone number.");
       return;
     }
-
-    if (!pincodeRegex.test(formData.pincode)) {
+  
+    if (!pincodeRegex.test(formData.pinCode)) {
       alert("Please enter a valid 6-digit pincode.");
       return;
     }
-
-    setShowPreview(true);
+  
+    try {
+      // Send the form data
+      const response = await axios.post('http://192.168.0.113:8012/registerUser', formData);
+      console.log(response.data); // Assuming your backend returns some data upon successful registration
+      setShowPreview(true);
+    } catch (error) {
+      console.error('Error occurred while registering user:', error);
+      // Handle error appropriately, e.g., show an error message to the user
+    }
+  
+    console.log(formData);
   };
+  
 
   const handleConfirmAndSave = () => {
     // Save formData to localStorage
@@ -63,14 +90,17 @@ export const RegistrationForm = () => {
     setFormData({
       userName: "",
       phoneNumber: "",
-      cardId: generateCardId(),
-      addressOne: "",
-      emailId: "",
-      pincode: "",
+      cardID: generateCardId(),
+      address: "",
+      emailID: "",
+      pinCode: "",
+      dateTime: "",
       city: "",
-      dob: "",
-      userPhoto: null,
-      brandName: "",
+      dateOfBirth: "",
+      photo:"",
+      languageSpoken:"",
+      loginPIN: 1234,
+      brand: "",
     });
     setShowPreview(false);
     alert("Data Saved");
@@ -111,43 +141,43 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="cardId">Card ID:</label>
+          <label htmlFor="cardID">Card ID:</label>
           <input
             type="text"
-            id="cardId"
-            name="cardId"
-            value={formData.cardId}
+            id="cardID"
+            name="cardID"
+            value={formData.cardID}
             readOnly
           />
         </div>
         <div className="form-group">
-          <label htmlFor="emailId">Email ID:</label>
+          <label htmlFor="emailID">Email ID:</label>
           <input
             type="text"
-            id="emailId"
-            name="emailId"
-            value={formData.emailId}
+            id="emailID"
+            name="emailID"
+            value={formData.emailID}
             onChange={handleChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="addressOne">Address Line 1:</label>
+          <label htmlFor="address">Address:</label>
           <input
             type="text"
-            id="addressOne"
-            name="addressOne"
-            value={formData.addressOne}
+            id="address"
+            name="address"
+            value={formData.address}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="pincode">Pincode:</label>
+          <label htmlFor="pinCode">Pin Code:</label>
           <input
             type="text"
-            id="pincode"
-            name="pincode"
-            value={formData.pincode}
+            id="pinCode"
+            name="pinCode"
+            value={formData.pinCode}
             onChange={handleChange}
             required
           />
@@ -164,107 +194,131 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="dob">Date of Birth:</label>
+          <label htmlFor="dateOfBirth">Date of Birth:</label>
           <input
             type="date"
-            id="dob"
-            name="dob"
-            value={formData.dob}
+            id="dateOfBirth"
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="languageSpoken">Language Spoken:</label>
+          <input
+            type="text"
+            id="languageSpoken"
+            name="languageSpoken"
+            value={formData.languageSpoken}
             onChange={handleChange}
             required
           />
         </div>
         <div className="form-group">
-          <label className="upload" htmlFor="userPhoto">
-            Upload User Photo +
-          </label>
-          <input
-            type="file"
-            id="userPhoto"
-            name="userPhoto"
-            onChange={handlePhotoChange}
-            accept="image/*"
-            style={{ display: 'none' }}
-            required
-          />
-          {formData.userPhoto ? (
-            <img
-              src={URL.createObjectURL(formData.userPhoto)}
-              alt="User"
-              className="user-photo"
-            />
-          ) : (
-            <label id="uploadimg" className="upload" htmlFor="userPhoto">
-              <img
-                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-                alt="Default User"
-                className="user-photo"
-              />
-            </label>
-          )}
-        </div>
-        <div className="form-group">
-          <label htmlFor="brandName">Brand Name:</label>
+          <label htmlFor="brand">Brand:</label>
           <select
-            id="brandName"
-            name="brandName"
-            value={formData.brandName}
+            id="brand"
+            name="brand"
+            value={formData.brand}
             onChange={handleChange}
             required
           >
             <option value="">Select Brand</option>
-            <option value="Myntra">Myntra</option>
+            <option value="Sugar">Sugar</option>
+            <option value="Other Brand">Other Brand</option>
           </select>
         </div>
-
-        <button type="submit">Submit & Preview</button>
-      </form>
-
-      {/* Preview section */}
-      {showPreview && (
-        <div className="preview-section">
-          <h3>Preview</h3>
-          <div className="card">
-            <div className="card-content">
-              <div className="fdiv">
-                <img
-                  style={{ width: "230px", marginBottom: "-20px" }}
-                  src="StreeLogo.png"
-                  alt="Stree Logo"
-                />
-                <h4>{formData.userName}</h4>
-                <p style={{ marginTop: '-20px' }}>Member From: {formattedDate}</p>
-                <img
-                  style={{ width: "70px" }}
-                  src="https://www.hellotech.com/guide/wp-content/uploads/2020/05/HelloTech-qr-code.jpg"
-                  alt="qr"
-                />
-                <p style={{ fontWeight: "bold", marginTop: "-10px" }}>
-                  {formData.cardId}
-                </p>
-              </div>
-              <div>
-                <img
-                  style={{ width: "70px", marginLeft: "10px" }}
-                  src="https://rukminim2.flixcart.com/image/850/1000/xif0q/digital-voucher-code/t/i/s/-original-imagn3acm5rja4bw.jpeg?q=90&crop=false"
-                  alt="Stree Logo"
-                />
-                {formData.userPhoto && (
-                  <img
-                    src={URL.createObjectURL(formData.userPhoto)}
-                    alt="User"
-                    className="user-photo"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <br />
-          <button onClick={handleConfirmAndSave}>Confirm & Save</button>
+        <div className="form-group">
+          <label htmlFor="dateTime">Date Time:</label>
+          <input
+            type="datetime-local"
+            id="dateTime"
+            name="dateTime"
+            value={formData.dateTime}
+            onChange={handleChange}
+            required
+          />
         </div>
-      )}
+        <div className="form-group">
+  <label className="upload" htmlFor="userPhoto">
+    Upload User Photo +
+  </label>
+  <input
+    type="file"
+    id="userPhoto"
+    name="userPhoto"
+    onChange={handlePhotoChange}
+    accept="image/*"
+    style={{ display: 'none' }}
+    required
+  />
+  {formData.photo ? (
+    <img
+      src={URL.createObjectURL(formData.photo)}
+      alt="User"
+      className="user-photo"
+    />
+  ) : (
+    <label id="uploadimg" className="upload" htmlFor="userPhoto">
+      <img
+        src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+        alt="Default User"
+        className="user-photo"
+      />
+    </label>
+  )}
+</div>
+    <button type="submit">Submit & Preview</button>
+</form>
+
+    {/* Preview section */}
+{showPreview && (
+  <div className="preview-section">
+    <h3>Preview</h3>
+    <div className="card">
+      <div className="card-content">
+        <div className="fdiv">
+          <img
+            style={{ width: "230px", marginBottom: "-20px" }}
+            src="StreeLogo.png"
+            alt="Stree Logo"
+          />
+          <h4>{formData.userName}</h4>
+          <p style={{ marginTop: '-20px' }}>Member From: {formattedDate}</p>
+          <img
+            style={{ width: "70px" }}
+            src="https://www.hellotech.com/guide/wp-content/uploads/2020/05/HelloTech-qr-code.jpg"
+            alt="qr"
+          />
+          <p style={{ fontWeight: "bold", marginTop: "-10px" }}>
+            {formData.cardID}
+          </p>
+        </div>
+        <div>
+          <img
+            style={{ width: "70px", marginLeft: "10px" }}
+            src="https://rukminim2.flixcart.com/image/850/1000/xif0q/digital-voucher-code/t/i/s/-original-imagn3acm5rja4bw.jpeg?q=90&crop=false"
+            alt="Stree Logo"
+          />
+          {formData.photo && (
+            <img
+              src={URL.createObjectURL(formData.photo)} // Use createObjectURL to display the Blob image
+              alt="User"
+              className="user-photo"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+    <br />
+    <button onClick={handleConfirmAndSave}>Confirm & Save</button>
+  </div>
+)}
+
     </div>
   );
 };
 
-
+export default RegistrationForm;
