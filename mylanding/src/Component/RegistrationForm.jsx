@@ -14,7 +14,7 @@ export const RegistrationForm = () => {
     dateOfBirth: "",
     dateTime: "",
     languageSpoken:"",
-    loginPIN: 12334,
+    loginPIN: 1234,
     brand:"",
     photo:"",
 
@@ -54,39 +54,37 @@ export const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowPreview(true);
     
-    // Validation for phone number and pincode
-    const phoneNumberRegex = /^\d{10}$/;
-    const pincodeRegex = /^\d{6}$/;
-  
-    if (!phoneNumberRegex.test(formData.phoneNumber)) {
-      alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
-  
-    if (!pincodeRegex.test(formData.pinCode)) {
-      alert("Please enter a valid 6-digit pincode.");
-      return;
-    }
-  
-    try {
-      // Send the form data
-      const response = await axios.post('http://192.168.0.113:8012/registerUser', formData);
-      console.log(response.data); // Assuming your backend returns some data upon successful registration
-      setShowPreview(true);
-    } catch (error) {
-      console.error('Error occurred while registering user:', error);
-      // Handle error appropriately, e.g., show an error message to the user
-    }
-  
-    console.log(formData);
+    
   };
   
-
-  const handleConfirmAndSave = () => {
+  
+  const handleConfirmAndSave = async () => {
     // Save formData to localStorage
     localStorage.setItem("registrationData", JSON.stringify(formData));
     // Clear form data or perform any additional action if needed
+  
+    if (showPreview) {
+      try {
+        const response = await fetch('http://192.168.0.117:8012/registerUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error('Error occurred while registering user:', error);
+        // Handle error appropriately
+      }
+    }
+  
+    // Log formData after fetch request
+    console.log(formData);
+  
     setFormData({
       userName: "",
       phoneNumber: "",
@@ -105,7 +103,8 @@ export const RegistrationForm = () => {
     setShowPreview(false);
     alert("Data Saved");
   };
-
+  
+  
   // Function to generate a random 9-digit card ID
   function generateCardId() {
     return Math.floor(100000000 + Math.random() * 900000000);
@@ -269,6 +268,7 @@ export const RegistrationForm = () => {
       />
     </label>
   )}
+  <br />
 </div>
     <button type="submit">Submit & Preview</button>
 </form>
