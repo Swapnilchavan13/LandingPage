@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import "../styles/register.css";
 
 export const RegistrationForm = () => {
+
+
   const [formData, setFormData] = useState({
     userName: "",
     phoneNumber: "",
@@ -21,6 +23,7 @@ export const RegistrationForm = () => {
   });
 
   const [showPreview, setShowPreview] = useState(false);
+  const [brandData, setBrandData] = useState([]);
 
   const ldate = new Date();
   const formattedDate = ldate.toISOString().slice(0, 10);
@@ -32,6 +35,18 @@ export const RegistrationForm = () => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    fetch('http://192.168.0.118:8012/getBrandDetails')
+      .then(response => response.json())
+      .then(data => {
+        setBrandData(data.brandDetails);
+      })
+      .catch(error => {
+        console.error('Error fetching brand data:', error);
+      });
+  }, []);
+
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -216,19 +231,22 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="brand">Brand:</label>
-          <select
-            id="brand"
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Brand</option>
-            <option value="Sugar">Sugar</option>
-            <option value="Other Brand">Other Brand</option>
-          </select>
-        </div>
+        <label htmlFor="brand">Brand:</label>
+        <select
+          id="brand"
+          name="brand"
+          value={formData.brand}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Brand</option>
+          {brandData.map(brand => (
+            <option key={brand.id} value={brand.brandName}>
+              {brand.brandName}
+            </option>
+          ))}
+        </select>
+      </div>
         <div className="form-group">
           <label htmlFor="dateTime">Date Time:</label>
           <input
