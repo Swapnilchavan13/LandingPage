@@ -66,12 +66,9 @@ export const RegistrationForm = () => {
     }
   };
   
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowPreview(true);
-    
-    
   };
   
   
@@ -82,12 +79,12 @@ export const RegistrationForm = () => {
   
     if (showPreview) {
       try {
-        const response = await fetch('http://192.168.0.117:8012/registerUser', {
+        const response = await fetch('http://192.168.0.118:8012/registerUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formData), 
         });
         const data = await response.json();
         console.log(data);
