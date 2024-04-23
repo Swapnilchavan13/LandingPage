@@ -1,0 +1,70 @@
+#survey-container {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+#survey-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#survey-form label{
+    width: 250px;
+    height: fit-content;
+    position: relative;
+    top: 10px;
+}
+
+#survey-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#survey-form div {
+  margin-bottom: 15px;
+}
+
+#survey-form label {
+  font-weight: bold;
+}
+
+#age,
+#favoriteProduct,
+#preferredMakeupBrand,
+#reasonForPurchase {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#skinType,
+#gender {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#reasonForPurchase {
+  resize: vertical;
+}
+
+#submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-button:hover {
+  background-color: #45a049;
+}

@@ -4,6 +4,9 @@ import EmailVerification from './Component/Email';
 import OTPForm from './Component/OtpForm';
 import { RegistrationForm } from './Component/RegistrationForm';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Survey } from './Component/Survey';
+import { Vanswer } from './Component/Vanswer';
+import { Ianswer } from './Component/Ianswer';
 
 
 function App() {
@@ -14,8 +17,9 @@ function App() {
         <Route path="/clicker" element={<ClickerInfo />} />
         <Route path="/otp" element={<OTPForm />} />
         <Route path="/email" element={<EmailVerification />} />
-
-
+        <Route path="/survey" element={<Survey />} />
+        <Route path="/vans" element={<Vanswer />} />
+        <Route path="/ians" element={<Ianswer />} />
     </Routes>
   </BrowserRouter>
   );
