@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Survey } from './Component/Survey';
 import { Vanswer } from './Component/Vanswer';
 import { Ianswer } from './Component/Ianswer';
+import { Success } from './Component/Success';
+import { WalletDetails } from './Component/WalletDetails';
 
 
 function App() {
@@ -20,6 +22,9 @@ function App() {
         <Route path="/survey" element={<Survey />} />
         <Route path="/vans" element={<Vanswer />} />
         <Route path="/ians" element={<Ianswer />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/wallet" element={<WalletDetails />} />
+
     </Routes>
   </BrowserRouter>
   );

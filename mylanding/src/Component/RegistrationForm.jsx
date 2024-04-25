@@ -37,7 +37,7 @@ export const RegistrationForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://192.168.0.118:8012/getBrandDetails')
+    fetch('http://97.74.94.109:8086/getbranddetails')
       .then(response => response.json())
       .then(data => {
         setBrandData(data.brandDetails);
@@ -79,7 +79,7 @@ export const RegistrationForm = () => {
   
     if (showPreview) {
       try {
-        const response = await fetch('http://192.168.0.118:8012/registerUser', {
+        const response = await fetch('http://97.74.94.109:8086/registerUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
