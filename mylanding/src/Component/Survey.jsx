@@ -53,7 +53,7 @@ export const Survey = () => {
         throw new Error('Failed to add transaction details');
       }
 
-      setSurveySubmitted(true); // Mark survey as submitted
+      // setSurveySubmitted(true); // Mark survey as submitted
       alert('Survey submitted successfully! You have earned 100 points.');
       navigate('/success'); // Navigate to success page
     } catch (error) {
