@@ -14,7 +14,7 @@ export const Survey = () => {
     reasonForPurchase: ''
   });
 
-  const [surveySubmitted, setSurveySubmitted] = useState(false); // State to track survey submission
+  // const [surveySubmitted, setSurveySubmitted] = useState(false); // State to track survey submission
 
   const handleChange = (e) => {
     const { name, value } = e.target;
