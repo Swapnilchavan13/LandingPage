@@ -10,7 +10,7 @@ export const WalletDetails = () => {
   useEffect(() => {
     const fetchUserWallet = async () => {
       try {
-        const response = await fetch('http://97.74.94.109:8086/getwallet');
+        const response = await fetch('https://streesocialapi.cinemass.co.in/getwallet');
         if (!response.ok) {
           throw new Error('Failed to fetch wallet details');
         }

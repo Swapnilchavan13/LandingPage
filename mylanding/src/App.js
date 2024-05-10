@@ -9,6 +9,7 @@ import { Vanswer } from './Component/Vanswer';
 import { Ianswer } from './Component/Ianswer';
 import { Success } from './Component/Success';
 import { WalletDetails } from './Component/WalletDetails';
+import { CashbackForm } from './Component/Cashbackdetails';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         <Route path="/ians" element={<Ianswer />} />
         <Route path="/success" element={<Success />} />
         <Route path="/wallet" element={<WalletDetails />} />
-
+        <Route path="/cashback" element={<CashbackForm />} />
     </Routes>
   </BrowserRouter>
   );

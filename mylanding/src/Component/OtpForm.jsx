@@ -83,35 +83,38 @@ import React, { useState } from 'react';
 import axios from 'axios'; // For making HTTP requests
 
 function OTPForm() {
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [message, setMessage] = useState('');
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSendOTP = async () => {
-    try {
-      const response = await axios.post('http://localhost:3008/send-otp', { mobileNumber });
-      setMessage(response.data.message);
-    } catch (error) {
-      console.error('Error sending OTP:', error);
-      setMessage('Error sending OTP. Please try again.');
-    }
+  const sendOTP = async () => {
+      try {
+          const response = await axios.post("http://localhost:3008/send-otp", {
+              mobileNumber
+          });
+
+          const { message, otp } = response.data;
+          setMessage(`${message}. OTP: ${otp}`);
+      } catch (error) {
+          console.error(error);
+          setMessage("Failed to send OTP. Please try again later.");
+      }
   };
 
   return (
-    <div>
-      <h2>Send OTP</h2>
-      <div>
-        <label>Mobile Number:</label>
-        <input
-          type="text"
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-        />
+      <div className="App">
+          <h2>Enter Your Mobile Number</h2>
+          <input
+              type="text"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              placeholder="Enter Mobile Number"
+          />
+          <button onClick={sendOTP}>Send OTP</button>
+          <p>{message}</p>
       </div>
-      <button onClick={handleSendOTP}>Send OTP</button>
-      {message && <p>{message}</p>}
-    </div>
   );
-};
+}
 
 export default OTPForm;
+
 

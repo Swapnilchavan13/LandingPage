@@ -28,7 +28,7 @@ export const Vanswer = () => {
 
       try {
         // Make API call to update wallet with earned points
-        const walletResponse = await fetch('http://97.74.94.109:8086/updateWallet/1', {
+        const walletResponse = await fetch('https://streesocialapi.cinemass.co.in/updateWallet/1', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export const Vanswer = () => {
         }
 
         // Make API call to add transaction details
-        const transactionResponse = await fetch('http://97.74.94.109:8086/newTransaction/1', {
+        const transactionResponse = await fetch('https://streesocialapi.cinemass.co.in/newTransaction/1', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

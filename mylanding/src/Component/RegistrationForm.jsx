@@ -4,7 +4,6 @@ import "../styles/register.css";
 
 export const RegistrationForm = () => {
 
-
   const [formData, setFormData] = useState({
     userName: "",
     phoneNumber: "",
@@ -37,7 +36,7 @@ export const RegistrationForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://97.74.94.109:8086/getbranddetails')
+    fetch('https://streesocialapi.cinemass.co.in/getbranddetails')
       .then(response => response.json())
       .then(data => {
         setBrandData(data.brandDetails);
@@ -79,7 +78,7 @@ export const RegistrationForm = () => {
   
     if (showPreview) {
       try {
-        const response = await fetch('http://97.74.94.109:8086/registerUser', {
+        const response = await fetch('https://streesocialapi.cinemass.co.in/registerUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
