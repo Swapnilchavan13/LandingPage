@@ -10,13 +10,13 @@ export const WalletDetails = () => {
   useEffect(() => {
     const fetchUserWallet = async () => {
       try {
-        const response = await fetch('https://streesocialapi.cinemass.co.in/getwallet');
+        const response = await fetch('http://97.74.94.109:4121/getwallet');
         if (!response.ok) {
           throw new Error('Failed to fetch wallet details');
         }
         const data = await response.json();
         // Assuming the first user's ID is 1
-        const userWalletData = data.walletDetails.find(wallet => wallet.userID === 1);
+        const userWalletData = data.walletDetails.find(wallet => wallet.userID === 3);
         setUserWallet(userWalletData);
         setLoading(false);
       } catch (error) {
