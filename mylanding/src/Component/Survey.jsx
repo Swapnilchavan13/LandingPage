@@ -30,7 +30,7 @@ export const Survey = () => {
     try {
       // Make API call to submit survey responses (not implemented here)
       // On successful submission, update the wallet
-      const walletResponse = await fetch('https://streesocialapi.cinemass.co.in/updateWallet/1', {
+      const walletResponse = await fetch('http://97.74.94.109:4121/updateWallet/3', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -42,12 +42,12 @@ export const Survey = () => {
       }
 
       // Make API call to add transaction details
-      const transactionResponse = await fetch('https://streesocialapi.cinemass.co.in/newTransaction/1', {
+      const transactionResponse = await fetch('http://97.74.94.109:4121/newTransaction/3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ points: 100, activityID: 4 }) // Assuming activityID for survey completion is 4
+        body: JSON.stringify({ points: 100, activityID: 1 }) // Assuming activityID for survey completion is 4
       });
       if (!transactionResponse.ok) {
         throw new Error('Failed to add transaction details');
