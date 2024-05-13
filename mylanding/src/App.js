@@ -10,6 +10,7 @@ import { Ianswer } from './Component/Ianswer';
 import { Success } from './Component/Success';
 import { WalletDetails } from './Component/WalletDetails';
 import { CashbackForm } from './Component/Cashbackdetails';
+import { CashBackFro } from './Component/CashBackFro';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
         <Route path="/success" element={<Success />} />
         <Route path="/wallet" element={<WalletDetails />} />
         <Route path="/cashback" element={<CashbackForm />} />
+        <Route path="/cashbackfro" element={<CashBackFro />} />
+
+
     </Routes>
   </BrowserRouter>
   );
