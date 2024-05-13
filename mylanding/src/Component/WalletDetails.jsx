@@ -47,7 +47,7 @@ export const WalletDetails = () => {
         <h2>Points: {userWallet.value}</h2>
       </div>
       <div className="activity-links">
-        <h3>Points Earning Activity Links</h3>
+        {/* <h3>Points Earning Activity Links</h3>
         <button>
         <Link to="/ians">Image Activity</Link>
         </button>
@@ -58,6 +58,9 @@ export const WalletDetails = () => {
         <br />
         <button>
         <Link to="/survey">Survey Activity</Link>
+        </button> */}
+        <button>
+        <Link to="/cashbackfro">Back TO Activity List</Link>
         </button>
       </div>
     </div>
