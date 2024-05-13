@@ -28,7 +28,7 @@ export const Vanswer = () => {
 
       try {
         // Make API call to update wallet with earned points
-        const walletResponse = await fetch('https://streesocialapi.cinemass.co.in/updateWallet/1', {
+        const walletResponse = await fetch('http://97.74.94.109:4121/updateWallet/3', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -40,12 +40,12 @@ export const Vanswer = () => {
         }
 
         // Make API call to add transaction details
-        const transactionResponse = await fetch('https://streesocialapi.cinemass.co.in/newTransaction/1', {
+        const transactionResponse = await fetch('http://97.74.94.109:4121/newTransaction/3', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ points: totalPoints, activityID: 5 }) // Assuming activityID for answering questions is 5
+          body: JSON.stringify({ points: totalPoints, activityID: 1 }) // Assuming activityID for answering questions is 5
         });
         if (!transactionResponse.ok) {
           throw new Error('Failed to add transaction details');
