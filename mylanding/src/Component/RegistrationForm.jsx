@@ -14,14 +14,14 @@ export const RegistrationForm = () => {
     dateOfBirth: "",
     dateTime: "",
     languageSpoken:"",
-    loginPIN: 1234,
+    loginPIN: null,
     brand:"",
     photo:"",
-
   });
 
   const [showPreview, setShowPreview] = useState(false);
   const [brandData, setBrandData] = useState([]);
+  const [confirmPin, setConfirmPin] = useState("");
 
   const ldate = new Date();
   const formattedDate = ldate.toISOString().slice(0, 10);
@@ -34,8 +34,14 @@ export const RegistrationForm = () => {
     });
   };
 
+
+
+  const handleConfirmPinChange = (e) => {
+    setConfirmPin(e.target.value);
+  };
+
   useEffect(() => {
-    fetch('https://streesocialapi.cinemass.co.in/getbranddetails')
+    fetch('http://97.74.94.109:4121/getbranddetails')
       .then(response => response.json())
       .then(data => {
         setBrandData(data.brandDetails);
@@ -44,7 +50,6 @@ export const RegistrationForm = () => {
         console.error('Error fetching brand data:', error);
       });
   }, []);
-
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -63,13 +68,17 @@ export const RegistrationForm = () => {
       reader.readAsArrayBuffer(file);
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowPreview(true);
+    if (formData.loginPIN === confirmPin) {
+      setShowPreview(true);
+    } else {
+      alert("PIN and confirm PIN do not match");
+    }
   };
   
-  
+
   const handleConfirmAndSave = async () => {
     // Save formData to localStorage
     localStorage.setItem("registrationData", JSON.stringify(formData));
@@ -107,18 +116,19 @@ export const RegistrationForm = () => {
       dateOfBirth: "",
       photo:"",
       languageSpoken:"",
-      loginPIN: 1234,
+      loginPIN: null,
       brand: "",
     });
     setShowPreview(false);
+    setConfirmPin("");
     alert("Data Saved");
   };
-  
   
   // Function to generate a random 9-digit card ID
   function generateCardId() {
     return Math.floor(100000000 + Math.random() * 900000000);
   }
+
 
   return (
     <div className="registration-form">
@@ -282,6 +292,30 @@ export const RegistrationForm = () => {
     </label>
   )}
   <br />
+  <div className="form-group">
+          <label htmlFor="pin">PIN:</label>
+          <input
+            type="password"
+            id="loginPIN"
+            name="loginPIN"
+            value={formData.loginPIN}
+            onChange={handleChange}
+            maxLength={4}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPin">Confirm PIN:</label>
+          <input
+            type="password"
+            id="confirmPin"
+            name="confirmPin"
+            value={confirmPin}
+            onChange={handleConfirmPinChange}
+            maxLength={4}
+            required
+          />
+        </div>
 </div>
     <button type="submit">Submit & Preview</button>
 </form>
