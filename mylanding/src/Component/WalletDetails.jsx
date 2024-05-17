@@ -48,7 +48,7 @@ export const WalletDetails = () => {
       </div>
       <div className="activity-links">
         <button>
-          <Link to="/cashbackfro">Back TO Activity List</Link>
+          <Link to={`/cashbackfro?userid=${userid}`}>Back TO Activity List</Link>
         </button>
       </div>
     </div>
