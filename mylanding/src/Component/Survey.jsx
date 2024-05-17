@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/survey.css";
-
 
 export const Survey = () => {
   const navigate = useNavigate();
@@ -13,8 +12,14 @@ export const Survey = () => {
     preferredMakeupBrand: '',
     reasonForPurchase: ''
   });
+  const [userId, setUserId] = useState(null);
 
-  // const [surveySubmitted, setSurveySubmitted] = useState(false); // State to track survey submission
+  useEffect(() => {
+    // Extract the userid from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
+    setUserId(userid);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +35,7 @@ export const Survey = () => {
     try {
       // Make API call to submit survey responses (not implemented here)
       // On successful submission, update the wallet
-      const walletResponse = await fetch('http://97.74.94.109:4121/updateWallet/3', {
+      const walletResponse = await fetch(`http://97.74.94.109:4121/updateWallet/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -42,7 +47,7 @@ export const Survey = () => {
       }
 
       // Make API call to add transaction details
-      const transactionResponse = await fetch('http://97.74.94.109:4121/newTransaction/3', {
+      const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -53,7 +58,6 @@ export const Survey = () => {
         throw new Error('Failed to add transaction details');
       }
 
-      // setSurveySubmitted(true); // Mark survey as submitted
       alert('Survey submitted successfully! You have earned 100 points.');
       navigate('/success'); // Navigate to success page
     } catch (error) {
@@ -61,11 +65,11 @@ export const Survey = () => {
       alert('Failed to submit survey. Please try again later.');
     }
   };
+
   return (
     <div id="survey-container">
       <div className='sdiv'>
-
-      <h1 id="survey-title">COSMETIC SURVEY</h1>
+        <h1 id="survey-title">COSMETIC SURVEY</h1>
       </div>
       <form id="survey-form" onSubmit={handleSubmit}>
         <div>
