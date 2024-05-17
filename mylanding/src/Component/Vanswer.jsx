@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/vans.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,14 @@ export const Vanswer = () => {
     question2: '',
     question3: ''
   });
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Extract the userid from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
+    setUserId(userid);
+  }, []);
 
   const handleAnswerSelection = (question, option) => {
     setSelectedAnswers(prevState => ({
@@ -28,7 +36,7 @@ export const Vanswer = () => {
 
       try {
         // Make API call to update wallet with earned points
-        const walletResponse = await fetch('http://97.74.94.109:4121/updateWallet/3', {
+        const walletResponse = await fetch(`http://97.74.94.109:4121/updateWallet/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -40,12 +48,12 @@ export const Vanswer = () => {
         }
 
         // Make API call to add transaction details
-        const transactionResponse = await fetch('http://97.74.94.109:4121/newTransaction/3', {
+        const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ points: totalPoints, activityID: 1 }) // Assuming activityID for answering questions is 5
+          body: JSON.stringify({ points: totalPoints, activityID: 1 }) // Assuming activityID for answering questions is 1
         });
         if (!transactionResponse.ok) {
           throw new Error('Failed to add transaction details');
@@ -65,8 +73,7 @@ export const Vanswer = () => {
   return (
     <div className="survey-container">
       <div className='sdiv'>
-
-      <h3 className="survey-title">WATCH THE VIDEO AND ANSWER THE QUESTIONS:</h3>
+        <h3 className="survey-title">WATCH THE VIDEO AND ANSWER THE QUESTIONS:</h3>
       </div>
       <div className="video-container">
         {/* Replace the videoURL with your actual video URL */}
@@ -98,7 +105,7 @@ export const Vanswer = () => {
       </div>
       {/* Submit Button */}
       <div className="submit-container">
-      <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        <button className="submit-button" onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

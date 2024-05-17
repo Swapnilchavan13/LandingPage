@@ -1,10 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
 
 export const CashBackFro = () => {
   const [activityData, setActivityData] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    // Extract the userid from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
+    setUserId(userid);
+
     // Fetch data from the API
     fetch('http://97.74.94.109:4121/getActivityCashback')
       .then(response => response.json())
@@ -15,10 +20,12 @@ export const CashBackFro = () => {
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
   const redirectToGame = () => {
-    // Redirect to the gameURL
+    // Redirect to the gameURL with userid
     if (activityData && activityData.gameURL) {
-      window.location.href = activityData.gameURL;
+      const gameURLWithUserId = `${activityData.gameURL}?userid=${userId}`;
+      window.location.href = gameURLWithUserId;
     } else {
       console.error('No game URL found.');
     }
