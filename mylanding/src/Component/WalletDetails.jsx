@@ -27,7 +27,7 @@ export const WalletDetails = () => {
         const data = await response.json();
         // console.log('Fetched Data:', data); // Log the fetched data for debugging
         const userWalletData = data.walletDetails.find(wallet => wallet.userID == userId);
-        console.log('User Wallet Data:', userWalletData); // Log the user wallet data for debugging
+        // console.log('User Wallet Data:', userWalletData); // Log the user wallet data for debugging
         setUserWallet(userWalletData);
         setLoading(false);
       } catch (error) {
