@@ -6,9 +6,16 @@ export const WalletDetails = () => {
   const [userWallet, setUserWallet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { userid } = useParams(); // Extracting userId from URL params
+  const [userId, setUserId] = useState(null);
 
-  console.log('UserID:', userid); // Log the extracted user ID
+  useEffect(() => {
+    // Extract the userid from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
+    setUserId(userid);
+  }, []);
+
+  console.log('UserID:', userId); // Log the extracted user ID
 
   useEffect(() => {
     const fetchUserWallet = async () => {
@@ -19,7 +26,7 @@ export const WalletDetails = () => {
         }
         const data = await response.json();
         console.log('Fetched Data:', data); // Log the fetched data for debugging
-        const userWalletData = data.walletDetails.find(wallet => wallet.userID === parseInt(userid));
+        const userWalletData = data.walletDetails.find(wallet => wallet.userID == userId);
         console.log('User Wallet Data:', userWalletData); // Log the user wallet data for debugging
         setUserWallet(userWalletData);
         setLoading(false);
@@ -30,7 +37,7 @@ export const WalletDetails = () => {
     };
 
     fetchUserWallet();
-  }, [userid]);
+  }, [userId]);
 
   if (loading) {
     return <div className="container loading">Loading...</div>;
@@ -52,7 +59,7 @@ export const WalletDetails = () => {
       </div>
       <div className="activity-links">
         <button>
-          <Link to={`/cashbackfro?userid=${userid}`}>Back TO Activity List</Link>
+          <Link to={`/cashbackfro?userid=${userId}`}>Back TO Activity List</Link>
         </button>
       </div>
     </div>
