@@ -8,7 +8,7 @@ export const WalletDetails = () => {
   const [error, setError] = useState(null);
   const { userid } = useParams(); // Extracting userId from URL params
 
-  console.log(userid);
+  console.log('UserID:', userid); // Log the extracted user ID
 
   useEffect(() => {
     const fetchUserWallet = async () => {
@@ -18,7 +18,9 @@ export const WalletDetails = () => {
           throw new Error('Failed to fetch wallet details');
         }
         const data = await response.json();
-        const userWalletData = data.walletDetails.find(wallet => wallet.userID == userid);
+        console.log('Fetched Data:', data); // Log the fetched data for debugging
+        const userWalletData = data.walletDetails.find(wallet => wallet.userID === parseInt(userid));
+        console.log('User Wallet Data:', userWalletData); // Log the user wallet data for debugging
         setUserWallet(userWalletData);
         setLoading(false);
       } catch (error) {
