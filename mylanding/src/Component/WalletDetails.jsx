@@ -11,7 +11,7 @@ export const WalletDetails = () => {
   useEffect(() => {
     const fetchUserWallet = async () => {
       try {
-        const response = await fetch(`http://97.74.94.109:4121/getwallet`);
+        const response = await fetch(`http://97.74.94.109:4121/getwallet?userid=${userid}`);
         if (!response.ok) {
           throw new Error('Failed to fetch wallet details');
         }
