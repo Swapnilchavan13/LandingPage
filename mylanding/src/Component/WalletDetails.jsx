@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../styles/wallet.css'; // Import your CSS file
 
 export const WalletDetails = () => {
   const [userWallet, setUserWallet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { userid } = useParams(); // Extracting userId from URL params
 
   useEffect(() => {
     const fetchUserWallet = async () => {
       try {
-        const response = await fetch('http://97.74.94.109:4121/getwallet');
+        const response = await fetch(`http://97.74.94.109:4121/getwallet`);
         if (!response.ok) {
           throw new Error('Failed to fetch wallet details');
         }
         const data = await response.json();
-        // Assuming the first user's ID is 1
-        const userWalletData = data.walletDetails.find(wallet => wallet.userID === 3);
+        const userWalletData = data.walletDetails.find(wallet => wallet.userID === parseInt(userid));
         setUserWallet(userWalletData);
         setLoading(false);
       } catch (error) {
@@ -26,7 +26,7 @@ export const WalletDetails = () => {
     };
 
     fetchUserWallet();
-  }, []);
+  }, [userid]);
 
   if (loading) {
     return <div className="container loading">Loading...</div>;
@@ -37,7 +37,7 @@ export const WalletDetails = () => {
   }
 
   if (!userWallet) {
-    return <div className="container">No wallet details found for the first user.</div>;
+    return <div className="container">No wallet details found for the user.</div>;
   }
 
   return (
@@ -47,20 +47,8 @@ export const WalletDetails = () => {
         <h2>Points: {userWallet.value}</h2>
       </div>
       <div className="activity-links">
-        {/* <h3>Points Earning Activity Links</h3>
         <button>
-        <Link to="/ians">Image Activity</Link>
-        </button>
-        <br />
-        <button>
-        <Link to="/vans">Video Activity</Link>
-        </button>
-        <br />
-        <button>
-        <Link to="/survey">Survey Activity</Link>
-        </button> */}
-        <button>
-        <Link to="/cashbackfro">Back TO Activity List</Link>
+          <Link to="/cashbackfro">Back TO Activity List</Link>
         </button>
       </div>
     </div>

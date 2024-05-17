@@ -33,7 +33,7 @@ export const Vanswer = () => {
       if (selectedAnswers.question1 === "option2") totalPoints += 50;
       if (selectedAnswers.question2 === "option2") totalPoints += 50;
       if (selectedAnswers.question3 === "option3") totalPoints += 50;
-
+  
       try {
         // Make API call to update wallet with earned points
         const walletResponse = await fetch(`http://97.74.94.109:4121/updateWallet/${userId}`, {
@@ -46,7 +46,7 @@ export const Vanswer = () => {
         if (!walletResponse.ok) {
           throw new Error('Failed to update wallet');
         }
-
+  
         // Make API call to add transaction details
         const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
           method: 'POST',
@@ -58,9 +58,9 @@ export const Vanswer = () => {
         if (!transactionResponse.ok) {
           throw new Error('Failed to add transaction details');
         }
-
+  
         alert(`Answers submitted successfully! You have earned ${totalPoints} points.`);
-        navigate('/success'); // Navigate to success page
+        navigate(`/success?userid=${userId}`); // Navigate to success page with userId query parameter
       } catch (error) {
         console.error('Error:', error);
         alert('Failed to submit answers. Please try again later.');
@@ -69,6 +69,7 @@ export const Vanswer = () => {
       alert('Please answer all questions.');
     }
   };
+  
 
   return (
     <div className="survey-container">
