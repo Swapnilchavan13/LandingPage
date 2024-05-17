@@ -86,7 +86,7 @@ export const RegistrationForm = () => {
   
     if (showPreview) {
       try {
-        const response = await fetch('http://192.168.0.134:8012/registerUser', {
+        const response = await fetch('http://97.74.94.109:4121/registerUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
