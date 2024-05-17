@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import '../styles/ians.css'; // Import the CSS file
 import 'slick-carousel/slick/slick.css';
@@ -6,13 +6,20 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
 
 export const Ianswer = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedAnswers, setSelectedAnswers] = useState({
     question1: '',
     question2: '',
     question3: ''
   });
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Extract the userid from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
+    setUserId(userid);
+  }, []);
 
   const handleAnswerSelection = (question, option) => {
     setSelectedAnswers(prevState => ({
@@ -27,12 +34,12 @@ export const Ianswer = () => {
       // Logic to calculate points based on answers
       let totalPoints = 0;
       if (selectedAnswers.question1 === "option2") totalPoints += 50;
-      if (selectedAnswers.question2 === "option2") totalPoints += 50;
-      if (selectedAnswers.question3 === "option1") totalPoints += 50;
+      if (selectedAnswers.question2 === "option1") totalPoints += 50;
+      if (selectedAnswers.question3 === "option3") totalPoints += 50;
 
       try {
         // Make API call to update wallet with earned points
-        const walletResponse = await fetch('http://97.74.94.109:4121/updateWallet/3', {
+        const walletResponse = await fetch(`http://97.74.94.109:4121/updateWallet/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -44,7 +51,7 @@ export const Ianswer = () => {
         }
 
         // Make API call to add transaction details
-        const transactionResponse = await fetch('http://97.74.94.109:4121/newTransaction/3', {
+        const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -56,7 +63,7 @@ export const Ianswer = () => {
         }
 
         alert(`Answers submitted successfully! You have earned ${totalPoints} points.`);
-         navigate('/success'); // Navigate to success page
+        navigate('/success'); // Navigate to success page
       } catch (error) {
         console.error('Error:', error);
         alert('Failed to submit answers. Please try again later.');
@@ -78,8 +85,7 @@ export const Ianswer = () => {
   return (
     <div className="survey-container">
       <div className='sdiv'>
-
-      <h3 className="survey-title">Watch the images and answer the questions:</h3>
+        <h3 className="survey-title">Watch the images and answer the questions:</h3>
       </div>
       <Slider className='slider' {...settings}>
         <div> 
