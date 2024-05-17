@@ -38,7 +38,7 @@ export const CashBackFro = () => {
           <h2>{activityData.activityDetails}</h2>
           <p>{activityData.categoryDetails}</p>
           <img src={activityData.cashBackImagesURL} alt="Cashback" style={styles.image} />
-          <p>Cashback Amount: 150}</p>
+          <p>Cashback Amount: 150</p>
           {/* <p>Date and Time: {activityData.dateAndTime}</p> */}
           <p>Activity Type: {activityData.activityType}</p>
           <p>Category Type: {activityData.categoryType}</p>
