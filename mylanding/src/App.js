@@ -11,6 +11,9 @@ import { Success } from './Component/Success';
 import { WalletDetails } from './Component/WalletDetails';
 import { CashbackForm } from './Component/Cashbackdetails';
 import { CashBackFro } from './Component/CashBackFro';
+// import { QrScanner } from './Component/QrScanner';
+import { QrScannerComponent } from './Component/QrScanner';
+
 
 
 function App() {
@@ -28,7 +31,7 @@ function App() {
         <Route path="/wallet" element={<WalletDetails />} />
         <Route path="/cashback" element={<CashbackForm />} />
         <Route path="/cashbackfro" element={<CashBackFro />} />
-
+        <Route path="/qrscanner" element={<QrScannerComponent />} />
 
     </Routes>
   </BrowserRouter>
