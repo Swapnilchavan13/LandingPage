@@ -3,6 +3,8 @@ import "../styles/register.css";
 
 export const RegistrationForm = () => {
 
+  const [pincity, setPincity] = useState("");
+
   const [formData, setFormData] = useState({
     userName: "",
     phoneNumber: "",
@@ -10,7 +12,7 @@ export const RegistrationForm = () => {
     emailID: "",
     address: "",
     pinCode: "",
-    city: "",
+    city: pincity,
     dateOfBirth: "",
     dateTime: "",
     languageSpoken:"",
@@ -22,6 +24,7 @@ export const RegistrationForm = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [brandData, setBrandData] = useState([]);
   const [confirmPin, setConfirmPin] = useState("");
+  const [pincode, setPincode] = useState("");
 
   const ldate = new Date();
   const formattedDate = ldate.toISOString().slice(0, 10);
@@ -34,23 +37,52 @@ export const RegistrationForm = () => {
     });
   };
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+  
 
+  useEffect(() => {
+    fetch(`https://api.postalpincode.in/pincode/${formData.pinCode}`)
+    .then(response => response.json())
+    .then(data => {
+      // const firstPostOffice = data.PostOffice[0];
+      const city = data[0].PostOffice[0].District;
+      setPincity(city);
+    })
+    .catch(error => {
+      console.error('Error fetching brand data:', error);
+    });
+
+  }, [formData.pinCode]);
+  
+
+    useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      city: pincity,
+    }));
+  }, [pincity]);
 
   const handleConfirmPinChange = (e) => {
     setConfirmPin(e.target.value);
   };
 
   useEffect(() => {
-    fetch('http://97.74.94.109:4121/getbranddetails')
+    fetch('http://192.168.0.134:8012/getbranddetails')
       .then(response => response.json())
       .then(data => {
         setBrandData(data.brandDetails);
       })
+
       .catch(error => {
         console.error('Error fetching brand data:', error);
       });
   }, []);
 
+ 
+  
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -71,6 +103,12 @@ export const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.photo) {
+      alert("Please select a profile image");
+      return; // Exit the function early
+    }
+
     if (formData.loginPIN === confirmPin) {
       setShowPreview(true);
     } else {
@@ -100,7 +138,6 @@ export const RegistrationForm = () => {
         // Handle error appropriately
       }
     }
-  
     // Log formData after fetch request
     console.log(formData);
   
@@ -112,7 +149,7 @@ export const RegistrationForm = () => {
       emailID: "",
       pinCode: "",
       dateTime: "",
-      city: "",
+      city: pincity,
       dateOfBirth: "",
       photo:"",
       languageSpoken:"",
@@ -128,7 +165,6 @@ export const RegistrationForm = () => {
   function generateCardId() {
     return Math.floor(100000000 + Math.random() * 900000000);
   }
-
 
   return (
     <div className="registration-form">
@@ -149,16 +185,19 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phoneNumber">Phone Number:</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-          />
-        </div>
+  <label htmlFor="phoneNumber">Phone Number:</label>
+  <input
+    type="tel"
+    id="phoneNumber"
+    name="phoneNumber"
+    value={formData.phoneNumber}
+    onChange={handleChange}
+    pattern="[0-9]{10}"
+    maxLength="10"
+    required
+  />
+</div>
+
         <div className="form-group">
           <label htmlFor="cardID">Card ID:</label>
           <input
@@ -170,15 +209,22 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="emailID">Email ID:</label>
-          <input
-            type="text"
-            id="emailID"
-            name="emailID"
-            value={formData.emailID}
-            onChange={handleChange}
-          />
-        </div>
+  <label htmlFor="emailID">Email ID:</label>
+  <input
+    type="email"
+    id="emailID"
+    name="emailID"
+    value={formData.emailID}
+    onChange={handleChange}
+    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    required
+  />
+  {!isValidEmail(formData.emailID) && (
+    <p style={{ color: 'red' }}>Please enter a valid email address</p>
+  )}
+</div>
+
+
         <div className="form-group">
           <label htmlFor="address">Address:</label>
           <input
@@ -198,6 +244,8 @@ export const RegistrationForm = () => {
             name="pinCode"
             value={formData.pinCode}
             onChange={handleChange}
+            pattern="[0-9]{6}"
+            maxLength="6"
             required
           />
         </div>
@@ -207,8 +255,9 @@ export const RegistrationForm = () => {
             type="text"
             id="city"
             name="city"
-            value={formData.city}
+            value={pincity}
             onChange={handleChange}
+            readOnly
             required
           />
         </div>
@@ -225,16 +274,21 @@ export const RegistrationForm = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="languageSpoken">Language Spoken:</label>
-          <input
-            type="text"
-            id="languageSpoken"
-            name="languageSpoken"
-            value={formData.languageSpoken}
-            onChange={handleChange}
-            required
-          />
-        </div>
+  <label htmlFor="languageSpoken">Language Spoken:</label>
+  <select
+    id="languageSpoken"
+    name="languageSpoken"
+    value={formData.languageSpoken}
+    onChange={handleChange}
+    required
+  >
+    <option value="">Select Language</option>
+    <option value="Hindi">Hindi</option>
+    <option value="English">English</option>
+    <option value="Marathi">Marathi</option>
+  </select>
+</div>
+
         <div className="form-group">
         <label htmlFor="brand">Brand:</label>
         <select
@@ -252,7 +306,7 @@ export const RegistrationForm = () => {
           ))}
         </select>
       </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="dateTime">Date Time:</label>
           <input
             type="datetime-local"
@@ -262,7 +316,7 @@ export const RegistrationForm = () => {
             onChange={handleChange}
             required
           />
-        </div>
+        </div> */}
         <div className="form-group">
   <label className="upload" htmlFor="userPhoto">
     Upload User Photo +
