@@ -70,7 +70,7 @@ export const RegistrationForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://192.168.0.134:8012/getbranddetails')
+    fetch('http://97.74.94.109:4121/getbranddetails')
       .then(response => response.json())
       .then(data => {
         setBrandData(data.brandDetails);
@@ -115,7 +115,6 @@ export const RegistrationForm = () => {
       alert("PIN and confirm PIN do not match");
     }
   };
-  
 
   const handleConfirmAndSave = async () => {
     // Save formData to localStorage
