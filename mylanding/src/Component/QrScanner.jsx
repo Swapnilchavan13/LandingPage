@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
+import '../styles/qr.css';
 
 export const QrScannerComponent = () => {
   const [showScanner, setShowScanner] = useState(false);
-  const [scanResult, setScanResult] = useState(null);
   const [jsonData, setJsonData] = useState(null);
+  const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
     let html5QrcodeScanner;
@@ -32,7 +33,8 @@ export const QrScannerComponent = () => {
     if (data) {
       try {
         const parsedData = JSON.parse(data);
-        setJsonData(parsedData);
+        const dataArray = Array.isArray(parsedData) ? parsedData : [parsedData];
+        setJsonData(dataArray);
       } catch (error) {
         console.error("Failed to parse QR code data as JSON:", error);
       }
@@ -48,21 +50,80 @@ export const QrScannerComponent = () => {
     setShowScanner(true);
   };
 
+  const handleCheckboxChange = (index) => {
+    setCheckedItems((prevCheckedItems) => {
+      const newCheckedItems = [...prevCheckedItems];
+      newCheckedItems[index] = !newCheckedItems[index];
+      return newCheckedItems;
+    });
+  };
+
+  const handleConfirmClick = () => {
+    const selectedItems = jsonData.filter((item, index) => checkedItems[index]);
+    console.log("Selected items:", selectedItems);
+    // Add further actions as needed
+  };
+
+  const renderDataFields = (item) => {
+    if (item.type === "PRODUCT") {
+      return (
+        <>
+          <p><strong>User Name:</strong> {item.username}</p>
+          <p><strong>Type:</strong> {item.type}</p>
+          <p><strong>Title:</strong> {item.title}</p>
+          <p><strong>Brand Name:</strong> {item.brandName}</p>
+        </>
+      );
+    } else if (item.type === "TICKET-BOOKIN") {
+      return (
+        <>
+          <p><strong>User Name:</strong> {item.username}</p>
+          <p><strong>Type:</strong> {item.type}</p>
+          <p><strong>Movie Name:</strong> {item.movieName}</p>
+          <p><strong>Show Date:</strong> {item.showDate}</p>
+          <p><strong>Show Time:</strong> {item.showTime}</p>
+        </>
+      );
+    } else if (item.type === "SAMPLE") {
+      return (
+        <>
+          <p><strong>User Name:</strong> {item.username}</p>
+          <p><strong>Type:</strong> {item.type}</p>
+          <p><strong>Title:</strong> {item.title}</p>
+          <p><strong>Brand Name:</strong> {item.brandName}</p>
+        </>
+      );
+    }
+    // Handle other types if necessary
+    return null;
+  };
+
   return (
-    <div>
-      <button onClick={handleButtonClick}>Ticket Acknowledgment</button>
-      <button onClick={handleButtonClick}>Sample Acknowledgment</button>
-      <button onClick={handleButtonClick}>Product Acknowledgment</button>
-      <button onClick={handleButtonClick}>Offers Acknowledgment</button>
+    <div className="container">
+      <div className="button-group">
+        <button onClick={handleButtonClick}>Scan QR Code</button>
+      </div>
       
       {showScanner && (
-        <div id="qr-reader" style={{ width: '100%' }}></div>
+        <div id="qr-reader"></div>
       )}
 
       {jsonData && (
-        <div>
+        <div className="scanned-data">
           <h3>Scanned Data:</h3>
-          <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+          {jsonData.map((item, index) => (
+            <div key={index} className="scanned-item">
+              <input
+                type="checkbox"
+                checked={checkedItems[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+              <div>
+                {renderDataFields(item)}
+              </div>
+            </div>
+          ))}
+          <button className="confirm-button" onClick={handleConfirmClick}>Confirm</button>
         </div>
       )}
     </div>
