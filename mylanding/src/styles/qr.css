@@ -38,10 +38,17 @@
   
   .scanned-data {
     margin-top: 20px;
+    width: 70%;
   }
   
   .scanned-data h3 {
     margin-bottom: 10px;
+  }
+
+  .renderdata{
+    border: 2px solid rgb(109, 107, 107);
+    padding: 10px;
+    width: 100%;
   }
   
   .scanned-item {

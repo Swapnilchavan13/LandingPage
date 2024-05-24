@@ -118,7 +118,7 @@ export const QrScannerComponent = () => {
                 checked={checkedItems[index] || false}
                 onChange={() => handleCheckboxChange(index)}
               />
-              <div>
+              <div className='renderdata'>
                 {renderDataFields(item)}
               </div>
             </div>
