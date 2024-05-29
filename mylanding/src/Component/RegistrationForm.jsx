@@ -135,7 +135,7 @@ export const RegistrationForm = () => {
           const data = await response.json();
           console.log(data);
           // Redirect to the specified link after successful registration
-          window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
+          // window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
         } else {
           console.error('Error occurred while registering user:', response.statusText);
           // Handle non-2xx responses appropriately
@@ -145,7 +145,6 @@ export const RegistrationForm = () => {
         // Handle network or other errors appropriately
       }
     }
-    
     // Log formData after fetch request
     console.log(formData);
   
