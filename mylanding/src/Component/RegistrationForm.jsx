@@ -128,18 +128,28 @@ export const RegistrationForm = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData), 
+          body: JSON.stringify(formData),
         });
-        const data = await response.json();
-        console.log(data);
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          // Redirect to the specified link after successful registration
+          window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
+        } else {
+          console.error('Error occurred while registering user:', response.statusText);
+          // Handle non-2xx responses appropriately
+        }
       } catch (error) {
         console.error('Error occurred while registering user:', error);
-        // Handle error appropriately
+        // Handle network or other errors appropriately
       }
     }
+    
     // Log formData after fetch request
     console.log(formData);
   
+    // Reset form data
     setFormData({
       userName: "",
       phoneNumber: "",
@@ -159,6 +169,7 @@ export const RegistrationForm = () => {
     setConfirmPin("");
     alert("Data Saved");
   };
+  
   
   // Function to generate a random 9-digit card ID
   function generateCardId() {
@@ -186,15 +197,19 @@ export const RegistrationForm = () => {
         <div className="form-group">
   <label htmlFor="phoneNumber">Phone Number:</label>
   <input
-    type="tel"
-    id="phoneNumber"
-    name="phoneNumber"
-    value={formData.phoneNumber}
-    onChange={handleChange}
-    pattern="[0-9]{10}"
-    maxLength="10"
-    required
-  />
+  type="tel"
+  id="phoneNumber"
+  name="phoneNumber"
+  value={formData.phoneNumber}
+  onChange={handleChange}
+  pattern="[0-9]{10}"
+  maxLength="10"
+  required
+  onInput={(e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+  }}
+/>
+
 </div>
 
         <div className="form-group">
