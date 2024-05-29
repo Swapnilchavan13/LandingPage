@@ -397,7 +397,7 @@ export const RegistrationForm = () => {
         <div className="fdiv">
           <img
             style={{ width: "230px", marginBottom: "-20px" }}
-            src="StreeLogo.png"
+            src="localitelogo-b.png"
             alt="Stree Logo"
           />
           <h4>{formData.userName}</h4>
@@ -412,11 +412,14 @@ export const RegistrationForm = () => {
           </p>
         </div>
         <div>
+          <div  style={{ width: "80px", border: "5px solid black", height:'50px', borderRadius:"10px" }}>
+
           <img
             style={{ width: "70px", marginLeft: "10px" }}
-            src="https://rukminim2.flixcart.com/image/850/1000/xif0q/digital-voucher-code/t/i/s/-original-imagn3acm5rja4bw.jpeg?q=90&crop=false"
-            alt="Stree Logo"
-          />
+            src=""
+            alt=""
+            />
+            </div>
           {formData.photo && (
             <img
               src={URL.createObjectURL(formData.photo)} // Use createObjectURL to display the Blob image
