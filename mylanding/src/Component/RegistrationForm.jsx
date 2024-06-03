@@ -81,7 +81,6 @@ export const RegistrationForm = () => {
       });
   }, []);
 
- 
   
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];

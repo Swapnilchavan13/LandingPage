@@ -13,6 +13,7 @@ import { CashbackForm } from './Component/Cashbackdetails';
 import { CashBackFro } from './Component/CashBackFro';
 // import { QrScanner } from './Component/QrScanner';
 import { QrScannerComponent } from './Component/QrScanner';
+import { LikeButton } from './Component/Like';
 
 
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/cashback" element={<CashbackForm />} />
         <Route path="/cashbackfro" element={<CashBackFro />} />
         <Route path="/qrscanner" element={<QrScannerComponent />} />
+        <Route path="/like" element={<LikeButton />} />
 
     </Routes>
   </BrowserRouter>

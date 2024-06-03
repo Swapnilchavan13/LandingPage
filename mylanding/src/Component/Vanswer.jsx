@@ -46,7 +46,6 @@ export const Vanswer = () => {
         if (!walletResponse.ok) {
           throw new Error('Failed to update wallet');
         }
-  
         // Make API call to add transaction details
         const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
           method: 'POST',
