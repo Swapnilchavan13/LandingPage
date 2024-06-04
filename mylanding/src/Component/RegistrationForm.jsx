@@ -165,7 +165,8 @@ export const RegistrationForm = () => {
     });
     setShowPreview(false);
     setConfirmPin("");
-    alert("Data Saved");
+    
+    alert("Successfully Registered");
   };
   
   
@@ -359,7 +360,7 @@ export const RegistrationForm = () => {
   )}
   <br />
   <div className="form-group">
-          <label htmlFor="pin">PIN:</label>
+          <label htmlFor="pin">Set Login PIN:</label>
           <input
             type="password"
             id="loginPIN"
