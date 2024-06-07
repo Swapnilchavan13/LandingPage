@@ -24,7 +24,7 @@ export const CashbackForm = () => {
     const fetchBrandNames = async () => {
       try {
         // Make a GET request to fetch brand names
-        const response = await axios.get('https://streesocialapi.cinemass.co.in/getBrandDetails');
+        const response = await axios.get('http://97.74.94.109:4121/getBrandDetails');
         // Extract brand names from the response
         const names = response.data.brandDetails.map((brand) => brand.brandName);
         // Set the fetched brand names to the state
