@@ -60,7 +60,7 @@ export const QrScannerComponent = () => {
 
   const handleConfirmClick = () => {
     const selectedItems = jsonData.filter((item, index) => checkedItems[index]);
-    console.log("Selected items:", selectedItems);
+    console.log("Selected items:", selectedItems[0].username);
     // Add further actions as needed
   };
 
