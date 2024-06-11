@@ -53,7 +53,7 @@ export const CashbackForm = () => {
     e.preventDefault();
     try {
       // Make a POST request to submit form data
-      const response = await axios.post('http://192.168.0.134:8012/addactivitydetails', formData);
+      const response = await axios.post('http://192.168.0.114:8012/addactivitydetails', formData);
       console.log('Form submitted successfully:', response.data);
       // Reset the form after submission
       setFormData({
@@ -77,7 +77,7 @@ export const CashbackForm = () => {
       <h2>Cashback Activity Form</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Activity Details:</label>
+          <label>Enter Activity Details:</label>
           <input
             type="text"
             name="activityDetails"
@@ -86,7 +86,7 @@ export const CashbackForm = () => {
           />
         </div>
         <div>
-          <label>Category Type:</label>
+          <label>Select Category Type:</label>
           <select
             name="categoryType"
             value={formData.categoryType}
@@ -98,7 +98,7 @@ export const CashbackForm = () => {
           </select>
         </div>
         <div>
-          <label>Category Details:</label>
+          <label>Enter Category Details:</label>
           <input
             type="text"
             name="categoryDetails"
@@ -107,7 +107,7 @@ export const CashbackForm = () => {
           />
         </div>
         <div>
-          <label>Cashback Amount:</label>
+          <label>Enter Cashback Amount:</label>
           <input
             type="number"
             name="cashbackAmount"
@@ -116,7 +116,7 @@ export const CashbackForm = () => {
           />
         </div>
         <div>
-          <label>Brand:</label>
+          <label>Select Brand:</label>
           <select
             name="brandName"
             value={formData.brandName}
@@ -131,7 +131,7 @@ export const CashbackForm = () => {
           </select>
         </div>
         <div>
-          <label>Cashback Image URL:</label>
+          <label>Enter Cashback Image URL:</label>
           <input
             type="text"
             name="cashBackImagesURL"
@@ -140,7 +140,7 @@ export const CashbackForm = () => {
           />
         </div>
         <div>
-          <label>Game URL:</label>
+          <label>Enter Game URL:</label>
           <input
             type="text"
             name="gameURL"

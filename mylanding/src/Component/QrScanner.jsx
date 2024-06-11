@@ -93,6 +93,15 @@ export const QrScannerComponent = () => {
           <p><strong>Brand Name:</strong> {item.brandName}</p>
         </>
       );
+    }else if (item.type === "OFFER") {
+      return (
+        <>
+          <p><strong>User Name:</strong> {item.username}</p>
+          <p><strong>Type:</strong> {item.type}</p>
+          <p><strong>Title:</strong> {item.title}</p>
+          <p><strong>Brand Name:</strong> {item.brandName}</p>
+        </>
+      );
     }
     // Handle other types if necessary
     return null;
