@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef  } from "react";
+import axios from "axios";
 import "../styles/register.css";
 
 export const RegistrationForm = () => {
-
+  const targetRef = useRef(null);
   const [pincity, setPincity] = useState("");
+  const [otp, setOtp] = useState(""); // State to store the OTP input by the user
+  const [message, setMessage] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false); // State to track OTP verification
 
   const [formData, setFormData] = useState({
     userName: "",
@@ -15,16 +20,17 @@ export const RegistrationForm = () => {
     city: pincity,
     dateOfBirth: "",
     dateTime: "",
-    languageSpoken:"",
+    languageSpoken: "",
     loginPIN: null,
-    brand:"",
-    photo:"",
+    brand: "",
+    photo: "",
   });
 
   const [showPreview, setShowPreview] = useState(false);
   const [brandData, setBrandData] = useState([]);
   const [confirmPin, setConfirmPin] = useState("");
   const [pincode, setPincode] = useState("");
+  const [mobileNumber, setMobileno] = useState("");
 
   const ldate = new Date();
   const formattedDate = ldate.toISOString().slice(0, 10);
@@ -33,32 +39,32 @@ export const RegistrationForm = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: name === "phoneNumber" ? formatPhoneNumber(value) : value,
     });
+
+    if (name === "phoneNumber") {
+      setMobileno(formatPhoneNumber(value));
+    }
   };
 
   const isValidEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
-  
 
   useEffect(() => {
     fetch(`https://api.postalpincode.in/pincode/${formData.pinCode}`)
-    .then(response => response.json())
-    .then(data => {
-      // const firstPostOffice = data.PostOffice[0];
-      const city = data[0].PostOffice[0].District;
-      setPincity(city);
-    })
-    .catch(error => {
-      console.error('Error fetching brand data:', error);
-    });
-
+      .then((response) => response.json())
+      .then((data) => {
+        const city = data[0].PostOffice[0].District;
+        setPincity(city);
+      })
+      .catch((error) => {
+        console.error("Error fetching brand data:", error);
+      });
   }, [formData.pinCode]);
-  
 
-    useEffect(() => {
+  useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
       city: pincity,
@@ -70,22 +76,67 @@ export const RegistrationForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://97.74.94.109:4121/getbranddetails')
-      .then(response => response.json())
-      .then(data => {
+    fetch("http://97.74.94.109:4121/getbranddetails")
+      .then((response) => response.json())
+      .then((data) => {
         setBrandData(data.brandDetails);
       })
-
-      .catch(error => {
-        console.error('Error fetching brand data:', error);
+      .catch((error) => {
+        console.error("Error fetching brand data:", error);
       });
   }, []);
 
-  
+  const sendOTP = async () => {
+
+    setTimeout(() => {
+      if (targetRef.current) {
+        targetRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1000); // 2000 milliseconds = 2 seconds
+    try {
+      const response = await axios.post("http://97.74.94.109:4121/send-otp", {
+        mobileNumber,
+      });
+
+      const { message } = response.data;
+      setMessage(`${message}`);
+      setOtpSent(true);
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to send OTP. Please try again later.");
+    }
+  };
+
+  const verifyOTP = async () => {
+
+    setTimeout(() => {
+      if (targetRef.current) {
+        targetRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1000); // 2000 milliseconds = 2 seconds
+    try {
+      const response = await axios.post("http://97.74.94.109:4121/verify-otp", {
+        mobileNumber,
+        otp,
+      });
+
+      const { message } = response.data;
+      setMessage(message);
+      if (response.data == "OTP verified success" || "Mobile no. already verified") {  
+        console.log(response.data)
+
+        setOtpVerified(true); // Set OTP verified to true if successful
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to verify OTP. Please try again later.");
+    }
+  };
+
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-  
+
     reader.onloadend = () => {
       // Convert the image file to a Blob object
       const blob = new Blob([reader.result], { type: file.type });
@@ -94,7 +145,7 @@ export const RegistrationForm = () => {
         photo: blob,
       });
     };
-  
+
     if (file) {
       reader.readAsArrayBuffer(file);
     }
@@ -103,12 +154,27 @@ export const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     setTimeout(() => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 1000);
+
+    if (!otpVerified) {
+      alert("Please verify OTP before submitting the form");
+      return;
+    }
+
     if (!formData.photo) {
       alert("Please select a profile image");
       return; // Exit the function early
     }
 
     if (formData.loginPIN === confirmPin) {
+      setFormData((prevData) => ({
+        ...prevData,
+        phoneNumber: formatPhoneNumber(prevData.phoneNumber),
+      }));
       setShowPreview(true);
     } else {
       alert("PIN and confirm PIN do not match");
@@ -119,34 +185,38 @@ export const RegistrationForm = () => {
     // Save formData to localStorage
     localStorage.setItem("registrationData", JSON.stringify(formData));
     // Clear form data or perform any additional action if needed
-  
+
     if (showPreview) {
       try {
-        const response = await fetch('http://97.74.94.109:4121/registerUser', {
-          method: 'POST',
+        const response = await fetch("http://97.74.94.109:4121/registerUser", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           console.log(data);
+          setOtpVerified(false)
           // Redirect to the specified link after successful registration
           // window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
         } else {
-          console.error('Error occurred while registering user:', response.statusText);
+          console.error(
+            "Error occurred while registering user:",
+            response.statusText
+          );
           // Handle non-2xx responses appropriately
         }
       } catch (error) {
-        console.error('Error occurred while registering user:', error);
+        console.error("Error occurred while registering user:", error);
         // Handle network or other errors appropriately
       }
     }
     // Log formData after fetch request
     console.log(formData);
-  
+
     // Reset form data
     setFormData({
       userName: "",
@@ -158,21 +228,31 @@ export const RegistrationForm = () => {
       dateTime: "",
       city: pincity,
       dateOfBirth: "",
-      photo:"",
-      languageSpoken:"",
+      photo: "",
+      languageSpoken: "",
       loginPIN: null,
       brand: "",
     });
     setShowPreview(false);
     setConfirmPin("");
-    
+    setOtpSent(false);
+    setOtpVerified(false); // Reset OTP verification status
+
     alert("Successfully Registered");
   };
-  
-  
+
   // Function to generate a random 9-digit card ID
   function generateCardId() {
     return Math.floor(100000000 + Math.random() * 900000000);
+  }
+
+  // Function to format the phone number with "91" prefix
+  function formatPhoneNumber(phoneNumber) {
+    if (phoneNumber.startsWith("91")) {
+      return phoneNumber;
+    } else {
+      return "91" + phoneNumber;
+    }
   }
 
   return (
@@ -194,50 +274,36 @@ export const RegistrationForm = () => {
           />
         </div>
         <div className="form-group">
-  <label htmlFor="phoneNumber">Phone Number:</label>
-  <input
-  type="tel"
-  id="phoneNumber"
-  name="phoneNumber"
-  value={formData.phoneNumber}
-  onChange={handleChange}
-  pattern="[0-9]{10}"
-  maxLength="10"
-  required
-  onInput={(e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
-  }}
-/>
-
-</div>
-
-        <div className="form-group">
-          <label htmlFor="cardID">Card ID:</label>
+          <label htmlFor="phoneNumber">Phone Number:</label>
           <input
-            type="text"
-            id="cardID"
-            name="cardID"
-            value={formData.cardID}
-            readOnly
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            pattern="[0-9]{12}"
+            maxLength="12"
+            required
+            onInput={(e) => {
+              e.target.value = e.target.value.replace(/[^0-9]/g, "");
+            }}
+          />
+          {/* <button type="button" onClick={sendOTP} disabled={otpSent}>
+            Get OTP
+          </button> */}
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="emailID">Email ID:</label>
+          <input
+            type="email"
+            id="emailID"
+            name="emailID"
+            value={formData.emailID}
+            onChange={handleChange}
+            required
           />
         </div>
-        <div className="form-group">
-  <label htmlFor="emailID">Email ID:</label>
-  <input
-    type="email"
-    id="emailID"
-    name="emailID"
-    value={formData.emailID}
-    onChange={handleChange}
-    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-    required
-  />
-  {!isValidEmail(formData.emailID) && (
-    <p style={{ color: 'red' }}>Please enter a valid email address</p>
-  )}
-</div>
-
-
         <div className="form-group">
           <label htmlFor="address">Address:</label>
           <input
@@ -285,82 +351,69 @@ export const RegistrationForm = () => {
             required
           />
         </div>
-
         <div className="form-group">
-  <label htmlFor="languageSpoken">Language Spoken:</label>
-  <select
-    id="languageSpoken"
-    name="languageSpoken"
-    value={formData.languageSpoken}
-    onChange={handleChange}
-    required
-  >
-    <option value="">Select Language</option>
-    <option value="Hindi">Hindi</option>
-    <option value="English">English</option>
-    <option value="Marathi">Marathi</option>
-  </select>
-</div>
-
-        <div className="form-group">
-        <label htmlFor="brand">Brand:</label>
-        <select
-          id="brand"
-          name="brand"
-          value={formData.brand}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Brand</option>
-          {brandData.map(brand => (
-            <option key={brand.id} value={brand.brandName}>
-              {brand.brandName}
-            </option>
-          ))}
-        </select>
-      </div>
-        {/* <div className="form-group">
-          <label htmlFor="dateTime">Date Time:</label>
-          <input
-            type="datetime-local"
-            id="dateTime"
-            name="dateTime"
-            value={formData.dateTime}
+          <label htmlFor="languageSpoken">Language Spoken:</label>
+          <select
+            id="languageSpoken"
+            name="languageSpoken"
+            value={formData.languageSpoken}
             onChange={handleChange}
             required
-          />
-        </div> */}
+          >
+            <option value="">Select Language</option>
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+            <option value="Marathi">Marathi</option>
+          </select>
+        </div>
         <div className="form-group">
-  <label className="upload" htmlFor="userPhoto">
-    Upload User Photo +
-  </label>
-  <input
-    type="file"
-    id="userPhoto"
-    name="userPhoto"
-    onChange={handlePhotoChange}
-    accept="image/*"
-    style={{ display: 'none' }}
-    required
-  />
-  {formData.photo ? (
-    <img
-      src={URL.createObjectURL(formData.photo)}
-      alt="User"
-      className="user-photo"
-    />
-  ) : (
-    <label id="uploadimg" className="upload" htmlFor="userPhoto">
-      <img
-        src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-        alt="Default User"
-        className="user-photo"
-      />
-    </label>
-  )}
-  <br />
-  <div className="form-group">
-          <label htmlFor="pin">Set Login PIN:</label>
+          <label htmlFor="brand">Brand:</label>
+          <select
+            id="brand"
+            name="brand"
+            value={formData.brand}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Brand</option>
+            {brandData.map((brand) => (
+              <option key={brand.id} value={brand.brandName}>
+                {brand.brandName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label className="upload" htmlFor="userPhoto">
+            Upload User Photo +
+          </label>
+          <input
+            type="file"
+            id="userPhoto"
+            name="userPhoto"
+            onChange={handlePhotoChange}
+            accept="image/*"
+            style={{ display: "none" }}
+            
+          />
+          {formData.photo ? (
+            <img
+              src={URL.createObjectURL(formData.photo)}
+              alt="User"
+              className="user-photo"
+            />
+          ) : (
+            <label id="uploadimg" className="upload" htmlFor="userPhoto">
+              <img
+                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+                alt="Default User"
+                className="user-photo"
+              />
+            </label>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="loginPIN">Set Login PIN:</label>
           <input
             type="password"
             id="loginPIN"
@@ -383,57 +436,85 @@ export const RegistrationForm = () => {
             required
           />
         </div>
-</div>
-    <button type="submit">Submit & Preview</button>
-</form>
-
-    {/* Preview section */}
-{showPreview && (
-  <div className="preview-section">
-    <h3>Preview</h3>
-    <div className="card">
-      <div className="card-content">
-        <div className="fdiv">
-          <img
-            style={{ width: "230px", marginBottom: "-20px" }}
-            src="localitelogo-b.png"
-            alt="Stree Logo"
-          />
-          <h4>{formData.userName}</h4>
-          <p style={{ marginTop: '-20px' }}>Member From: {formattedDate}</p>
-          <img
-            style={{ width: "70px" }}
-            src="https://www.hellotech.com/guide/wp-content/uploads/2020/05/HelloTech-qr-code.jpg"
-            alt="qr"
-          />
-          <p style={{ fontWeight: "bold", marginTop: "-10px" }}>
-            {formData.cardID}
-          </p>
-        </div>
-        <div>
-          <div  style={{ width: "80px", border: "5px solid black", height:'50px', borderRadius:"10px" }}>
-
-          <img
-            style={{ width: "70px", marginLeft: "10px" }}
-            src=""
-            alt=""
+        <button type="button" onClick={sendOTP} disabled={otpSent}>
+            Get OTP
+          </button>
+          {otpSent && (
+          <div className="form-group">
+            <label htmlFor="otp">Enter OTP:</label>
+            <input
+              type="text"
+              id="otp"
+              name="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
             />
-            </div>
-          {formData.photo && (
-            <img
-              src={URL.createObjectURL(formData.photo)} // Use createObjectURL to display the Blob image
-              alt="User"
-              className="user-photo"
-            />
-          )}
-        </div>
-      </div>
-    </div>
-    <br />
-    <button onClick={handleConfirmAndSave}>Confirm & Save</button>
-  </div>
+            <br />
+            <button type="button" onClick={verifyOTP}>
+              Verify OTP
+            </button>
+          </div>
+        )}
+          <p>{message}</p>
+          {otpVerified && (
+  <button type="submit">Submit & Preview</button>
 )}
 
+  </form>
+      {/* Preview section */}
+      {showPreview && (
+        <div  className="preview-section">
+          <h3>Preview</h3>
+          <div className="card">
+            <div className="card-content">
+              <div className="fdiv">
+                <img
+                  style={{ width: "230px", marginBottom: "-20px" }}
+                  src="localitelogo-b.png"
+                  alt="Stree Logo"
+                />
+                <h4>{formData.userName}</h4>
+                <p style={{ marginTop: "-20px" }}>Member From: {formattedDate}</p>
+                <img
+                  style={{ width: "70px" }}
+                  src="https://www.hellotech.com/guide/wp-content/uploads/2020/05/HelloTech-qr-code.jpg"
+                  alt="qr"
+                />
+                <p style={{ fontWeight: "bold", marginTop: "-10px" }}>
+                  {formData.cardID}
+                </p>
+              </div>
+              <div>
+                <div
+                  style={{
+                    width: "80px",
+                    border: "5px solid black",
+                    height: "50px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <img
+                    style={{ width: "70px", marginLeft: "10px" }}
+                    src=""
+                    alt=""
+                  />
+                </div>
+                {formData.photo && (
+                  <img
+                    src={URL.createObjectURL(formData.photo)} // Use createObjectURL to display the Blob image
+                    alt="User"
+                    className="user-photo"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <br />
+          <button onClick={handleConfirmAndSave}>Confirm & Save</button>
+        </div>
+      )}
+<div ref={targetRef}></div>
     </div>
   );
 };
