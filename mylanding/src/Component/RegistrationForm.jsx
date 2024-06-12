@@ -122,7 +122,7 @@ export const RegistrationForm = () => {
 
       const { message } = response.data;
       setMessage(message);
-      if (response.data == "OTP verified success" || "Mobile no. already verified") {  
+      if (response.data == "OTP verified success" || response.data == "Mobile no. already verified") {  
         console.log(response.data)
 
         setOtpVerified(true); // Set OTP verified to true if successful
