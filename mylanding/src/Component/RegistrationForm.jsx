@@ -181,65 +181,72 @@ export const RegistrationForm = () => {
     }
   };
 
-  const handleConfirmAndSave = async () => {
-    // Save formData to localStorage
-    localStorage.setItem("registrationData", JSON.stringify(formData));
-    // Clear form data or perform any additional action if needed
+ const handleConfirmAndSave = async () => {
+  // Save formData to localStorage
+  localStorage.setItem("registrationData", JSON.stringify(formData));
+  // Clear form data or perform any additional action if needed
 
-    if (showPreview) {
-      try {
-        const response = await fetch("http://97.74.94.109:4121/registerUser", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+  if (showPreview) {
+    try {
+      const response = await fetch("http://192.168.0.113:8012/registerUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "key-alw-api-key": "7dn93jKEYgdrsnskALWdyeg2mkhddts"
+        },
+        body: JSON.stringify(formData),
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setOtpVerified(false)
-          // Redirect to the specified link after successful registration
-          // window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
-        } else {
-          console.error(
-            "Error occurred while registering user:",
-            response.statusText
-          );
-          // Handle non-2xx responses appropriately
-        }
-      } catch (error) {
-        console.error("Error occurred while registering user:", error);
-        // Handle network or other errors appropriately
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setOtpVerified(false);
+        alert("Successfully Registered");
+        window.location.reload(false); 
+        // Redirect to the specified link after successful registration
+        // window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
+      } else if (response.status === 409) {
+        // Handle duplicate entry error
+        alert("Duplicate entry detected for mobile number, username, or email.");
+         window.location.reload(false); 
+      } else {
+        console.error(
+          "Error occurred while registering user:",
+          response.statusText
+        );
+        // Handle other non-2xx responses appropriately
       }
+    } catch (error) {
+      console.error("Error occurred while registering user:", error);
+      // Handle network or other errors appropriately
     }
-    // Log formData after fetch request
-    console.log(formData);
+  }
+  // Log formData after fetch request
+  console.log(formData);
 
-    // Reset form data
-    setFormData({
-      userName: "",
-      phoneNumber: "",
-      cardID: generateCardId(),
-      address: "",
-      emailID: "",
-      pinCode: "",
-      dateTime: "",
-      city: pincity,
-      dateOfBirth: "",
-      photo: "",
-      languageSpoken: "",
-      loginPIN: null,
-      brand: "",
-    });
-    setShowPreview(false);
-    setConfirmPin("");
-    setOtpSent(false);
-    setOtpVerified(false); // Reset OTP verification status
+  // Reset form data
+  setFormData({
+    userName: "",
+    phoneNumber: "",
+    cardID: generateCardId(),
+    address: "",
+    emailID: "",
+    pinCode: "",
+    dateTime: "",
+    city: pincity,
+    dateOfBirth: "",
+    photo: "",
+    languageSpoken: "",
+    loginPIN: null,
+    brand: "",
+  });
+  setShowPreview(false);
+  setConfirmPin("");
+  setOtpSent(false);
+  setOtpVerified(false); // Reset OTP verification status
 
-    alert("Successfully Registered");
-  };
+  
+};
 
   // Function to generate a random 9-digit card ID
   function generateCardId() {
