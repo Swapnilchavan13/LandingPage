@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef  } from "react";
 import axios from "axios";
+import SHA256 from "crypto-js/sha256";
+
 import "../styles/register.css";
 
 export const RegistrationForm = () => {
@@ -22,7 +24,7 @@ export const RegistrationForm = () => {
     dateTime: "",
     languageSpoken: "",
     loginPIN: null,
-    brand: "",
+    brand: "Sugar",
     photo: "",
   });
 
@@ -182,8 +184,12 @@ export const RegistrationForm = () => {
   };
 
  const handleConfirmAndSave = async () => {
+  // Hash the loginPIN before saving formData
+  const hashedLoginPIN = SHA256(formData.loginPIN).toString();
+  const formDataWithHashedPIN = { ...formData, loginPIN: hashedLoginPIN };
+
   // Save formData to localStorage
-  localStorage.setItem("registrationData", JSON.stringify(formData));
+  localStorage.setItem("registrationData", JSON.stringify(formDataWithHashedPIN));
   // Clear form data or perform any additional action if needed
 
   if (showPreview) {
@@ -194,7 +200,7 @@ export const RegistrationForm = () => {
           "Content-Type": "application/json",
           "key-alw-api-key": "7dn93jKEYgdrsnskALWdyeg2mkhddts"
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataWithHashedPIN),
       });
 
       if (response.ok) {
@@ -202,13 +208,12 @@ export const RegistrationForm = () => {
         console.log(data);
         setOtpVerified(false);
         alert("Successfully Registered");
-        window.location.reload(false); 
         // Redirect to the specified link after successful registration
         // window.location.href = 'https://play.google.com/store/apps/details?id=com.supercell.clashofclans';
       } else if (response.status === 409) {
         // Handle duplicate entry error
         alert("Duplicate entry detected for mobile number, username, or email.");
-         window.location.reload(false); 
+        window.location.reload(false); // Reload the page
       } else {
         console.error(
           "Error occurred while registering user:",
@@ -222,7 +227,7 @@ export const RegistrationForm = () => {
     }
   }
   // Log formData after fetch request
-  console.log(formData);
+  console.log(formDataWithHashedPIN);
 
   // Reset form data
   setFormData({
@@ -247,6 +252,7 @@ export const RegistrationForm = () => {
 
   
 };
+
 
   // Function to generate a random 9-digit card ID
   function generateCardId() {
@@ -373,7 +379,7 @@ export const RegistrationForm = () => {
             <option value="Marathi">Marathi</option>
           </select>
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="brand">Brand:</label>
           <select
             id="brand"
@@ -389,7 +395,7 @@ export const RegistrationForm = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
         <div className="form-group">
           <label className="upload" htmlFor="userPhoto">
             Upload User Photo +
