@@ -41,7 +41,7 @@ export const Researchdataentry = () => {
         formData.append('discountedPrice', discountedPrice);
     
         try {
-          const res = await fetch('http://localhost:3080/submit', {
+          const res = await fetch('http://62.72.59.146:3080/submit', {
             method: 'POST',
             body: formData
           });
