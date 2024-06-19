@@ -11,7 +11,7 @@ export const CashBackFro = () => {
     setUserId(userid);
 
     // Fetch data from the API
-    fetch('http://97.74.94.109:4121/getActivityCashback')
+    fetch('http://97.74.94.109:4020/getActivityCashback')
       .then(response => response.json())
       .then(data => {
         // Assuming the API response is in the format you provided
