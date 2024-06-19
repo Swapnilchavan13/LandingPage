@@ -35,8 +35,7 @@ function App() {
         <Route path="/cashbackfro" element={<CashBackFro />} />
         <Route path="/qrscanner" element={<QrScannerComponent />} />
         <Route path="/like" element={<LikeButton />} />
-        <Route path="/researchdataentry" element={<Researchdataentry />} />
-
+        <Route path="/research" element={<Researchdataentry />} />
 
     </Routes>
   </BrowserRouter>
