@@ -9,8 +9,8 @@ export const RegistrationForm = () => {
   const [pincity, setPincity] = useState("");
   const [otp, setOtp] = useState(""); // State to store the OTP input by the user
   const [message, setMessage] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false); // State to track OTP verification
+  const [otpSent, setOtpSent] = useState(true);
+  const [otpVerified, setOtpVerified] = useState(true); // State to track OTP verification
 
   const [formData, setFormData] = useState({
     userName: "",
@@ -78,7 +78,7 @@ export const RegistrationForm = () => {
   };
 
   useEffect(() => {
-    fetch("http://97.74.94.109:4121/getbranddetails")
+    fetch("http://97.74.94.109:4020/getbranddetails")
       .then((response) => response.json())
       .then((data) => {
         setBrandData(data.brandDetails);
@@ -96,7 +96,7 @@ export const RegistrationForm = () => {
       }
     }, 1000); // 2000 milliseconds = 2 seconds
     try {
-      const response = await axios.post("http://97.74.94.109:4121/send-otp", {
+      const response = await axios.post("http://97.74.94.109:4020/send-otp", {
         mobileNumber,
       });
 
@@ -117,7 +117,7 @@ export const RegistrationForm = () => {
       }
     }, 1000); // 2000 milliseconds = 2 seconds
     try {
-      const response = await axios.post("http://97.74.94.109:4121/verify-otp", {
+      const response = await axios.post("http://97.74.94.109:4020/verify-otp", {
         mobileNumber,
         otp,
       });
