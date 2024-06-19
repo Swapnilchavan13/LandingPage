@@ -53,7 +53,7 @@ export const CashbackForm = () => {
     e.preventDefault();
     try {
       // Make a POST request to submit form data
-      const response = await axios.post('http://192.168.0.114:8012/addactivitydetails', formData);
+      const response = await axios.post('http://97.74.94.109:4020/addactivitydetails', formData);
       console.log('Form submitted successfully:', response.data);
       // Reset the form after submission
       setFormData({
