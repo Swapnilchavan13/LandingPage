@@ -18,7 +18,7 @@ export const Researchdataentry = () => {
   
     useEffect(() => {
       // Fetch product categories dynamically (simulated with a static array for now)
-      const categories = ['Electronics', 'Fashion', 'Home', 'Books', 'Toys'];
+      const categories = ['Automotive&Transport', 'Clothing','DryCleaningServices', 'EducationalLearning', 'Entertainment&Leisure','Food', 'Food&Beverages', 'Handbags', 'Healthcare&Wellness','Home&Maintenance','Jewellery','PersonalCare','ProfessionalServices', 'Skin Care' ];
       setProductCategories(categories);
     }, []);
   
