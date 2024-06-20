@@ -26,11 +26,11 @@ export const Alldata = () => {
         {products.map((product) => (
           <div key={product._id} style={styles.productCard}>
             <h3 style={styles.offerHeadline}>{product.appSection}</h3>
-
+            <h3 style={styles.offerHeadline}>{product.brand}</h3>
             <h2 style={styles.productTitle}>Title :{product.title}</h2>
             <h3 style={styles.offerHeadline}>Headline: {product.offerHeadline}</h3>
-            <p style={styles.description}>{product.description}</p>
-            <p style={styles.excerptDescription}>{product.excerptDescription}</p>
+            <p style={styles.description}>Description: {product.description}</p>
+            <p style={styles.excerptDescription}>Excerpt Description: {product.excerptDescription}</p>
             <div style={styles.imageContainer}>
               <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
               <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
