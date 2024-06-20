@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export const CashBackFro = () => {
-  const [activityData, setActivityData] = useState(null);
+  const [activityData, setActivityData] = useState([]);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -16,15 +16,15 @@ export const CashBackFro = () => {
       .then(data => {
         // Assuming the API response is in the format you provided
         // Set the data in the state
-        setActivityData(data.activityCashbackTable[0]);
+        setActivityData(data.activityCashbackTable);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const redirectToGame = () => {
+  const redirectToGame = (gameURL) => {
     // Redirect to the gameURL with userid
-    if (activityData && activityData.gameURL) {
-      const gameURLWithUserId = `${activityData.gameURL}?userid=${userId}`;
+    if (gameURL) {
+      const gameURLWithUserId = `${gameURL}?userid=${userId}`;
       window.location.href = gameURLWithUserId;
     } else {
       console.error('No game URL found.');
@@ -33,23 +33,26 @@ export const CashBackFro = () => {
 
   return (
     <div style={styles.container}>
-      {activityData ? (
-        <div style={styles.content}>
-          <h2>{activityData.activityDetails}</h2>
-          <p>{activityData.categoryDetails}</p>
-          <img src={activityData.cashBackImagesURL} alt="Cashback" style={styles.image} />
-          <p>Cashback Amount: 150</p>
-          {/* <p>Date and Time: {activityData.dateAndTime}</p> */}
-          <p>Activity Type: {activityData.activityType}</p>
-          <p>Category Type: {activityData.categoryType}</p>
-          <button style={styles.button} onClick={redirectToGame}>Earn Now</button>
-        </div>
+      {activityData.length > 0 ? (
+        activityData.map(activity => (
+          <div key={activity.id} style={styles.content}>
+            <h2>{activity.activityDetails}</h2>
+            <p>{activity.categoryDetails}</p>
+            <img src={activity.cashBackImagesURL} alt="Cashback" style={styles.image} />
+            <p>Cashback Amount: {activity.cashbackAmount}</p>
+            {/* <p>Date and Time: {activity.dateAndTime}</p> */}
+            <p>Activity Type: {activity.activityType}</p>
+            <p>Category Type: {activity.categoryType}</p>
+            <button style={styles.button} onClick={() => redirectToGame(activity.gameURL)}>Earn Now</button>
+          </div>
+        ))
       ) : (
         <p>Loading...</p>
       )}
     </div>
   );
 };
+
 
 const styles = {
   container: {
