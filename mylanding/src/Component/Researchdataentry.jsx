@@ -169,7 +169,7 @@ export const Researchdataentry = () => {
         </div>
   
         <div className="form-group">
-          <label>Offer Headline:</label>
+          <label>Headline:</label>
           <input type="text" value={offerHeadline} onChange={(e) => setOfferHeadline(e.target.value)} />
         </div>
   
