@@ -16,7 +16,7 @@ export const CashBackFro = () => {
       .then(data => {
         // Assuming the API response is in the format you provided
         // Set the data in the state
-        setActivityData(data.activitycashbacktable[0]);
+        setActivityData(data.activityCashbackTable[0]);
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
