@@ -26,8 +26,8 @@ export const Alldata = () => {
         {products.map((product) => (
           <div key={product._id} style={styles.productCard}>
             <h3 style={styles.offerHeadline}>{product.appSection}</h3>
-            <h3 style={styles.offerHeadline}>{product.brand}</h3>
-            <h2 style={styles.productTitle}>Title :{product.title}</h2>
+            <h3 style={styles.offerHeadline}>Brand: {product.brand}</h3>
+            <h2 style={styles.productTitle}>Title: {product.title}</h2>
             <h3 style={styles.offerHeadline}>Headline: {product.offerHeadline}</h3>
             <p style={styles.description}>Description: {product.description}</p>
             <p style={styles.excerptDescription}>Excerpt Description: {product.excerptDescription}</p>
@@ -59,16 +59,14 @@ const styles = {
     color: '#333',
   },
   productList: {
-    display: 'flex',
-    flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
   productCard: {
+    margin:'auto',
+    width: '100%',
     border: '1px solid #ccc',
     borderRadius: '8px',
     padding: '20px',
-    margin: '10px',
-    width: '300px',
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
   },
   productTitle: {
@@ -94,8 +92,8 @@ const styles = {
     margin: '10px 0',
   },
   image: {
-    width: '100px',
-    height: '100px',
+    width: '300px',
+    height: '300px',
     objectFit: 'cover',
     borderRadius: '4px',
   },
