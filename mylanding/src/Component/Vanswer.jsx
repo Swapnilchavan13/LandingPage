@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/vans.css'; // Import the CSS file
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
 
 export const Vanswer = () => {
   const navigate = useNavigate();
@@ -106,6 +107,9 @@ export const Vanswer = () => {
       {/* Submit Button */}
       <div className="submit-container">
         <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        <button>
+          <Link to={`/cashbackfro?userid=${userId}`}>Back TO Activity List</Link>
+        </button>
       </div>
     </div>
   );
