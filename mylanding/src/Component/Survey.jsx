@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import "../styles/survey.css";
 
 export const Survey = () => {
@@ -108,6 +108,10 @@ export const Survey = () => {
           <textarea id="reasonForPurchase" name="reasonForPurchase" value={responses.reasonForPurchase} onChange={handleChange}></textarea>
         </div>
         <button id="submit-button" type="submit">Submit</button>
+        <br />
+        <button>
+          <Link to={`/cashbackfro?userid=${userId}`}>Back TO Activity List</Link>
+        </button>
       </form>
     </div>
   );

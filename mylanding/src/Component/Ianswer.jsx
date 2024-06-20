@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import '../styles/ians.css'; // Import the CSS file
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const Ianswer = () => {
   const navigate = useNavigate();
@@ -127,6 +127,10 @@ export const Ianswer = () => {
       <div className="submit-container">
         <button className="submit-button" onClick={handleSubmit}>Submit</button>
       </div>
+      <br />
+        <button>
+          <Link to={`/cashbackfro?userid=${userId}`}>Back TO Activity List</Link>
+        </button>
     </div>
   );
 };

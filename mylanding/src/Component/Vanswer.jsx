@@ -107,6 +107,7 @@ export const Vanswer = () => {
       {/* Submit Button */}
       <div className="submit-container">
         <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        <br />
         <button>
           <Link to={`/cashbackfro?userid=${userId}`}>Back TO Activity List</Link>
         </button>
