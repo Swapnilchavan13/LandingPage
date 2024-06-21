@@ -270,7 +270,7 @@ export const RegistrationForm = () => {
   return (
     <div className="registration-form">
       <div className="header">
-        <img src="localitelogo.png" width="280px" alt="" />
+        <img src="White_logo.png" width="280px" alt="" />
       </div>
       <h3>Registration Form</h3>
       <form onSubmit={handleSubmit}>
