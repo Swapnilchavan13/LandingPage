@@ -9,8 +9,8 @@ export const RegistrationForm = () => {
   const [pincity, setPincity] = useState("");
   const [otp, setOtp] = useState(""); // State to store the OTP input by the user
   const [message, setMessage] = useState("");
-  const [otpSent, setOtpSent] = useState(true);
-  const [otpVerified, setOtpVerified] = useState(true); // State to track OTP verification
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false); // State to track OTP verification
 
   const [formData, setFormData] = useState({
     userName: "",
@@ -194,7 +194,7 @@ export const RegistrationForm = () => {
 
   if (showPreview) {
     try {
-      const response = await fetch("http://192.168.0.113:8012/registerUser", {
+      const response = await fetch("http://97.74.94.109:4020/registerUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
