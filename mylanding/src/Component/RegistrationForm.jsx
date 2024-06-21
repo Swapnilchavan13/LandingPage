@@ -198,7 +198,6 @@ export const RegistrationForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "key-alw-api-key": "7dn93jKEYgdrsnskALWdyeg2mkhddts"
         },
         body: JSON.stringify(formDataWithHashedPIN),
       });
