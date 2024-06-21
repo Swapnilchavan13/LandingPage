@@ -24,7 +24,7 @@ export const RegistrationForm = () => {
     dateTime: "",
     languageSpoken: "",
     loginPIN: null,
-    brand: "Sugar",
+    brand: "Loreal Paris",
     photo: "",
   });
 
@@ -242,7 +242,7 @@ export const RegistrationForm = () => {
     photo: "",
     languageSpoken: "",
     loginPIN: null,
-    brand: "",
+    brand: "Loreal Paris",
   });
   setShowPreview(false);
   setConfirmPin("");
