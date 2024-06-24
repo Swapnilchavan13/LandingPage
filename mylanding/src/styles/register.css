@@ -7,10 +7,10 @@
     text-align: center;
   }
   .registration-form h3{
-    color: #201658;
+    color: teal;
   }
   .header{
-    background-color: #1d2b53;
+    background-color: #fdd6d2;
     height: 100px;
     padding-bottom: 29px;
   }
@@ -27,9 +27,10 @@
   }
   
   label {
-    background-color: #201658;
-    color: white;
+    background-color:  #fdd6d2;;
+    color: teal;
     text-align: center;
+    font-weight: bold;
     width: 160px;
     padding: 5px ;
     display: block;
@@ -45,7 +46,7 @@
     width: 94%;
     padding: 10px;
     height: 40px;
-    border: 3px solid #201658;
+    border: 3px solid orangered;
     border-radius: 8px;
   }
 
@@ -57,8 +58,8 @@
   button {
     margin: auto;
     text-align: center;
-    background-color: #98abee;
-    color: black;
+    background-color: orangered;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     font-size: larger;
