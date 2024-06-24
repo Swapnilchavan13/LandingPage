@@ -59,7 +59,7 @@ export const Survey = () => {
       }
 
       alert('Survey submitted successfully! You have earned 100 points.');
-      navigate('/success'); // Navigate to success page
+      navigate(`/success?userid=${userId}`); // Navigate to success page
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to submit survey. Please try again later.');

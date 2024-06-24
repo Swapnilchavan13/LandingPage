@@ -12,10 +12,11 @@ export const WalletDetails = () => {
     // Extract the userid from the URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const userid = urlParams.get('userid');
+    console.log("userid:" + userid);
     setUserId(userid);
   }, []);
 
-  // console.log('UserID:', userId); // Log the extracted user ID
+  console.log('UserID:', userId); // Log the extracted user ID
 
   useEffect(() => {
     const fetchUserWallet = async () => {
@@ -36,7 +37,9 @@ export const WalletDetails = () => {
       }
     };
 
-    fetchUserWallet();
+    if (userId) {
+      fetchUserWallet();
+    }
   }, [userId]);
 
   if (loading) {

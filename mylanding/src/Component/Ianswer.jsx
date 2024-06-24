@@ -63,7 +63,7 @@ export const Ianswer = () => {
         }
 
         alert(`Answers submitted successfully! You have earned ${totalPoints} points.`);
-        navigate('/success'); // Navigate to success page
+        navigate(`/success?userid=${userId}`);// Navigate to success page
       } catch (error) {
         console.error('Error:', error);
         alert('Failed to submit answers. Please try again later.');
