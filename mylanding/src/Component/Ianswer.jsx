@@ -39,7 +39,7 @@ export const Ianswer = () => {
 
       try {
         // Make API call to update wallet with earned points
-        const walletResponse = await fetch(`http://97.74.94.109:4121/updateWallet/${userId}`, {
+        const walletResponse = await fetch(`http://97.74.94.109:4020/updateWallet/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export const Ianswer = () => {
         }
 
         // Make API call to add transaction details
-        const transactionResponse = await fetch(`http://97.74.94.109:4121/newTransaction/${userId}`, {
+        const transactionResponse = await fetch(`http://97.74.94.109:4020/newTransaction/${userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
