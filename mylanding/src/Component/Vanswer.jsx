@@ -47,7 +47,8 @@ export const Vanswer = () => {
         if (!walletResponse.ok) {
           throw new Error('Failed to update wallet');
         }
-        // Make API call to add transaction details
+  
+        // Make API call to add transaction details 
         const transactionResponse = await fetch(`http://97.74.94.109:4020/newTransaction/${userId}`, {
           method: 'POST',
           headers: {
@@ -57,6 +58,18 @@ export const Vanswer = () => {
         });
         if (!transactionResponse.ok) {
           throw new Error('Failed to add transaction details');
+        }
+  
+        // Make API call to add cashback details
+        const cashbackResponse = await fetch('https://qljsn1wzw2.execute-api.ap-south-1.amazonaws.com/prod/api/user/cashback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: userId, CashbackAmount: totalPoints }) // Adding cashback details
+        });
+        if (!cashbackResponse.ok) {
+          throw new Error('Failed to add cashback details');
         }
   
         alert(`Answers submitted successfully! You have earned ${totalPoints} points.`);
@@ -69,6 +82,7 @@ export const Vanswer = () => {
       alert('Please answer all questions.');
     }
   };
+  
   
 
   return (
