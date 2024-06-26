@@ -24,7 +24,7 @@ export const Survey = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setResponses(prevState => ({
-      
+
       ...prevState,
       [name]: value
     }));
@@ -58,6 +58,19 @@ export const Survey = () => {
       if (!transactionResponse.ok) {
         throw new Error('Failed to add transaction details');
       }
+
+      // Make API call to add cashback details
+      const cashbackResponse = await fetch('https://qljsn1wzw2.execute-api.ap-south-1.amazonaws.com/prod/api/user/cashback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: userId, cashbackAmount: 100 }) // Adding cashback details
+      });
+      if (!cashbackResponse.ok) {
+        throw new Error('Failed to add cashback details');
+      }
+
 
       alert('Survey submitted successfully! You have earned 100 points.');
       navigate(`/success?userid=${userId}`); // Navigate to success page
