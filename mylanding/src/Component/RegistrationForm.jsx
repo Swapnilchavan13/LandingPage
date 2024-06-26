@@ -26,6 +26,7 @@ export const RegistrationForm = () => {
     loginPIN: null,
     brand: "Loreal Paris",
     photo: "",
+    activate: false
   });
 
   const [showPreview, setShowPreview] = useState(false);

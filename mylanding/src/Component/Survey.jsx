@@ -24,6 +24,7 @@ export const Survey = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setResponses(prevState => ({
+      
       ...prevState,
       [name]: value
     }));
