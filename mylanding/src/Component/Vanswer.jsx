@@ -66,7 +66,7 @@ export const Vanswer = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id: userId, CashbackAmount: totalPoints }) // Adding cashback details
+          body: JSON.stringify({ id: userId, cashbackAmount: totalPoints }) // Adding cashback details
         });
         if (!cashbackResponse.ok) {
           throw new Error('Failed to add cashback details');
