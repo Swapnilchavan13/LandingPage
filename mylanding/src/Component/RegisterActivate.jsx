@@ -8,7 +8,7 @@ export const RegisterActivate = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://192.168.0.114:8012/getlogindata`);
+        const response = await axios.get(`http://97.74.94.109:4020/getlogindata`);
         setUserData(response.data["All user details"]);
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -22,7 +22,7 @@ console.log(userData)
   const handleEditClick = async (id, currentActivate) => {
     const updatedActivate = currentActivate === 0 ? 1 : 0;
     try {
-      await axios.put(`http://192.168.0.114:8012/activateUserToggle/${id}`, {
+      await axios.put(`http://97.74.94.109:4020/activateUserToggle/${id}`, {
         activate: updatedActivate,
       });
       setUserData(prevData => 
