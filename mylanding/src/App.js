@@ -16,6 +16,7 @@ import { QrScannerComponent } from './Component/QrScanner';
 import { LikeButton } from './Component/Like';
 import { Researchdataentry } from './Component/Researchdataentry';
 import { Alldata } from './Component/Alldata';
+import { RegisterActivate } from './Component/RegisterActivate';
 
 
 
@@ -38,7 +39,7 @@ function App() {
         <Route path="/like" element={<LikeButton />} />
         <Route path="/research" element={<Researchdataentry />} />
         <Route path="/alldata" element={<Alldata />} />
-
+        <Route path="/allregisters" element={<RegisterActivate />} />
 
     </Routes>
   </BrowserRouter>
