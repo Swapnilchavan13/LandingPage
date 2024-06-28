@@ -57,7 +57,7 @@ export const WalletDetails = () => {
   return (
     <div className="container">
       <div className="user-info">
-        <h2>Wallet Details for User {userWallet.userID}</h2>
+        <h2>Wallet Details for User {userWallet.userName}</h2>
         <h2>Points: {userWallet.value}</h2>
       </div>
       <div className="activity-links">
