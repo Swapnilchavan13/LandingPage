@@ -7,6 +7,7 @@ export const WalletDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null); // Add state for userName
 
   useEffect(() => {
     // Extract the userid from the URL query parameters
@@ -37,8 +38,22 @@ export const WalletDetails = () => {
       }
     };
 
+    const fetchUserName = async () => {
+      try {
+        const response = await fetch(`http://97.74.94.109:4020/getlogindata/${userId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch user name');
+        }
+        const data = await response.json();
+        setUserName(data.userName); // Update userName state
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
     if (userId) {
       fetchUserWallet();
+      fetchUserName(); // Fetch userName as well
     }
   }, [userId]);
 
@@ -57,7 +72,7 @@ export const WalletDetails = () => {
   return (
     <div className="container">
       <div className="user-info">
-        <h2>Wallet Details for User {userWallet.userName}</h2>
+        <h2>Wallet Details for User {userName}</h2> {/* Display userName */}
         <h2>Points: {userWallet.value}</h2>
       </div>
       <div className="activity-links">
