@@ -56,7 +56,7 @@ console.log(userData)
               <td>{user.userName}</td>
               {/* <td>{user.emailID}</td> */}
               <td>{user.phoneNumber}</td>
-              <td>{user.activate === 0 ? 'False' : 'True'}</td>
+              <td>{user.activate === 0 ? 'Deactivated' : 'Activated'}</td>
               <td>
                 <button onClick={() => handleEditClick(user.id, user.activate)}>
                   Change Activation
