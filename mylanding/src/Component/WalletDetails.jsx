@@ -45,7 +45,7 @@ export const WalletDetails = () => {
           throw new Error('Failed to fetch user name');
         }
         const data = await response.json();
-        setUserName(data[0].userName); // Update userName state
+        setUserName(data.user.userName); // Update userName state
       } catch (error) {
         setError(error.message);
       }
