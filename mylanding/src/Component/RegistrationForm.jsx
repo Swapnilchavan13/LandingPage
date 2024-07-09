@@ -7,6 +7,8 @@ import "../styles/register.css";
 export const RegistrationForm = () => {
   const targetRef = useRef(null);
   const [pincity, setPincity] = useState("");
+  const [areaname, setAreaname] = useState("");
+
   const [otp, setOtp] = useState(""); // State to store the OTP input by the user
   const [message, setMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -20,6 +22,7 @@ export const RegistrationForm = () => {
     address: "",
     pinCode: "",
     city: pincity,
+    area: areaname,
     dateOfBirth: "",
     dateTime: "",
     languageSpoken: "",
@@ -60,7 +63,10 @@ export const RegistrationForm = () => {
       .then((response) => response.json())
       .then((data) => {
         const city = data[0].PostOffice[0].District;
+        const area = data[0].PostOffice[0].Name;
+
         setPincity(city);
+        setAreaname(area);
       })
       .catch((error) => {
         console.error("Error fetching brand data:", error);
@@ -71,6 +77,7 @@ export const RegistrationForm = () => {
     setFormData((prevData) => ({
       ...prevData,
       city: pincity,
+      area: areaname
     }));
   }, [pincity]);
 
@@ -239,6 +246,7 @@ export const RegistrationForm = () => {
     pinCode: "",
     dateTime: "",
     city: pincity,
+    area: areaname,
     dateOfBirth: "",
     photo: "",
     languageSpoken: "",
@@ -348,6 +356,18 @@ export const RegistrationForm = () => {
             id="city"
             name="city"
             value={pincity}
+            onChange={handleChange}
+            readOnly
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="area">Area Name:</label>
+          <input
+            type="text"
+            id="area"
+            name="area"
+            value={areaname}
             onChange={handleChange}
             readOnly
             required
