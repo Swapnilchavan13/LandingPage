@@ -286,6 +286,7 @@ export const RegistrationForm = () => {
       <p style={{textAlign:'left', padding:'10px'}}>Dear User,<br />
       <br />
 Thank you for downloading our app!
+<br />
 This is the app BY a Locality, OF a Locality and FOR a Locality. Our team works with businesses, shops, restaurants and services in very specific localities - to bring 1,000's of offers worth lakhs of rupees, for our members.<br />
 Since the offers, free goods and gifts are exclusively meant for residents of a particular area - the usage of the Localite app is restricted only to our members. Should you wish to join the rapidly expanding community of Localites, please apply for our membership by clicking the link below. Please note that the membership is COMPLETELY FREE - but, will is granted after a
 verification that you are genuinely a bonafide resident of the locality.
