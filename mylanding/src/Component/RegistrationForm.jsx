@@ -288,6 +288,7 @@ export const RegistrationForm = () => {
           <input
             type="text"
             id="userName"
+            placeholder="What other Localite will know you as"
             name="userName"
             value={formData.userName}
             onChange={handleChange}
@@ -299,6 +300,7 @@ export const RegistrationForm = () => {
           <input
             type="tel"
             id="phoneNumber"
+            placeholder="This will be your login ID"
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
@@ -318,6 +320,7 @@ export const RegistrationForm = () => {
           <label htmlFor="emailID">Email ID:</label>
           <input
             type="email"
+            placeholder="Your varification and receipts will be sent here"
             id="emailID"
             name="emailID"
             value={formData.emailID}
@@ -330,6 +333,7 @@ export const RegistrationForm = () => {
           <input
             type="text"
             id="address"
+            placeholder="Your membership card & deliveries will be sent here"
             name="address"
             value={formData.address}
             onChange={handleChange}
@@ -341,6 +345,7 @@ export const RegistrationForm = () => {
           <input
             type="text"
             id="pinCode"
+            placeholder="Your Localite area depends on this"
             name="pinCode"
             value={formData.pinCode}
             onChange={handleChange}
@@ -449,6 +454,7 @@ export const RegistrationForm = () => {
           <label htmlFor="loginPIN">Set Login PIN:</label>
           <input
             type="password"
+            placeholder="This unlocks your app"
             id="loginPIN"
             name="loginPIN"
             value={formData.loginPIN}
@@ -498,7 +504,7 @@ export const RegistrationForm = () => {
       {/* Preview section */}
       {showPreview && (
         <div  className="preview-section">
-          <h3>Preview</h3>
+          <h3>Your Localite Card will look like this</h3>
           <div className="card">
             <div className="card-content">
               <div className="fdiv">
