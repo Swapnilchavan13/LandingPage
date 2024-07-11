@@ -1,0 +1,201 @@
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import '../styles/customStyles.css';
+
+const contestData = [
+    {
+      id: 1,
+      title: 'Pet Dressing Contest',
+      likes: 20,
+      description: 'Calling out all pet owners to take time to have fun with their dogs, cats, and other animal friends, by dressing them up in cute and safe pet costumes and outfits.',
+      prize: '₹ 1 Lakh',
+      winners: 5,
+      images: ['dogshow.jpeg', 'dogshow.jpeg', 'dogshow.jpeg'],
+    },
+    {
+      id: 2,
+      title: 'Fancy Dress Contest',
+      likes: 30,
+      description: 'Join us for a fun fancy dress contest. Show off your creativity and win amazing prizes!',
+      prize: '₹ 1 Lakh',
+      winners: 5,
+      images: ['fancydress.png', 'fancydress.png', 'fancydress.png'],
+    },
+    {
+      id: 3,
+      title: 'Chess Competition',
+      likes: 40,
+      description: 'Participate in the ultimate chess competition and showcase your strategic skills!',
+      prize: '₹ 1 Lakh',
+      winners: 5,
+      images: ['chess.png', 'chess.png', 'chess.png'],
+    },
+    {
+      id: 4,
+      title: 'Gaming Tournament',
+      likes: 50,
+      description: 'Join the gaming tournament and compete with the best gamers for exciting prizes!',
+      prize: '₹ 1 Lakhs',
+      winners: 5,
+      images: ['game.png', 'game.png', 'game.png'],
+    }
+  ];
+
+  export const ContestDetail = () => {
+    const { id } = useParams();
+    const contest = contestData.find(contest => contest.id === parseInt(id));
+  
+    if (!contest) {
+      return <p>Contest not found!</p>;
+    }
+  
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
+  
+    return (
+      <div style={styles.container}>
+        <div style={styles.content}>
+  
+          <div style={styles.user}>
+            <img style={styles.logoimage} src="/Localite_icon.png" alt="Localite Icon" />
+            <h3>Localite</h3>
+          </div>
+  
+          <Slider {...settings}>
+            {contest.images.map((image, idx) => (
+              <div key={idx}>
+                <img style={styles.contestimg} src={'/'+image} alt={contest.title} />
+              </div>
+            ))}
+          </Slider>
+  
+          <div style={styles.likeprize}>
+            <div>
+              <img style={styles.icons} src="https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png" alt="Heart Icon" />
+              <img style={styles.icons} src="https://inschrijvenbijommerland.nl/img/404222.jpg" alt="Trophy Icon" />
+              <img style={styles.icons} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpZ3wldcL4dCjGMEX0vij_ERah5lZxmunPnw&s" alt="Medal Icon" />
+            </div>
+            <div style={styles.rightdiv}>
+              {/* <h4>Total Prize Money</h4>
+              <h4 style={styles.r1}>{contest.prize}</h4>
+              <h4 style={styles.r2}>For {contest.winners} winners</h4> */}
+            </div>
+          </div> 
+          <div id='contestform' style={styles.contentdiv}>
+            <h4>{contest.likes} likes</h4>
+            <div style={styles.content2}>
+              <h3>{contest.title}</h3>
+              <p style={styles.fullPara}>
+                {contest.description}
+              </p>
+            </div>
+                <h4>1st Place - ₹ 50,000</h4>
+                <h4>2nd Place - ₹ 30,000</h4>
+                <h4>3rd Place - ₹ 20,000</h4>
+                <div>
+          <h3 style={styles.fillform}>Fill in your details and register now!</h3>
+         <input placeholder='Your Full Name' type="text" />
+         <div style={styles.inputdiv}>
+            <input type="text" placeholder='Age' />
+            <select class="custom-select">
+    <option value="" disabled selected>Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+  </select>
+         </div>
+         <input placeholder='Phone Number' type="tel" />
+         <input placeholder='Your Pet`s Name' type="text" />
+         <input placeholder='What Kind of Pet do you have?' type="text" />
+         <textarea
+        className="text-area"
+        placeholder="Write something about you and your animal friend and let us know why you are going to win!"
+      />
+          </div>
+          <button style={styles.btn}>REGISTER</button>
+          </div>
+         
+        </div>
+
+
+      </div>
+    );
+  }
+  
+  const styles = {
+    container: {
+      maxWidth: 400,
+      margin: 'auto',
+    },
+    content: {
+      textAlign: 'left',
+      marginBottom: 40,
+    },
+    user: {
+      padding: 10,
+      display: 'flex',
+      gap: '20px'
+    },
+    logoimage: {
+      marginTop: '13px',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px'
+    },
+    icons: {
+      width: '30px',
+      height: '30px',
+      marginLeft: '10px',
+      marginTop: '10px'
+    },
+    contestimg: {
+      width: '100%',
+    },
+    likeprize: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    rightdiv: {
+      textAlign: 'right',
+      lineHeight: '5px',
+      paddingRight: 10
+    },
+    r1: {
+      color: 'red',
+    },
+    r2: {
+      color: 'skyblue',
+    },
+    contentdiv: {
+      marginTop: '-30px',
+      padding: 10,
+    },
+    content2: {
+      marginTop: '-20px',
+    },
+    fullPara: {
+      marginTop: '-20px',
+      display: 'block',
+    },
+    fillform: {
+      color:'red',
+    },
+
+    inputdiv: {
+        display: 'flex',
+        gap: 10,
+    },
+    btn: {
+        borderRadius: '50px',
+        marginTop: '20px',
+        width: '100%',
+        // backgroundColor: 'red'
+    }
+  };

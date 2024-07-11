@@ -12,11 +12,11 @@ import { WalletDetails } from './Component/WalletDetails';
 import { CashbackForm } from './Component/Cashbackdetails';
 import { CashBackFro } from './Component/CashBackFro';
 // import { QrScanner } from './Component/QrScanner';
-import { QrScannerComponent } from './Component/QrScanner';
 import { LikeButton } from './Component/Like';
 import { Researchdataentry } from './Component/Researchdataentry';
 import { Alldata } from './Component/Alldata';
 import { RegisterActivate } from './Component/RegisterActivate';
+import { ContestDetail } from './Component/ContestDetail';
 
 
 
@@ -35,11 +35,12 @@ function App() {
         <Route path="/wallet" element={<WalletDetails />} />
         <Route path="/cashback" element={<CashbackForm />} />
         <Route path="/cashbackfro" element={<CashBackFro />} />
-        <Route path="/qrscanner" element={<QrScannerComponent />} />
         <Route path="/like" element={<LikeButton />} />
         <Route path="/research" element={<Researchdataentry />} />
         <Route path="/alldata" element={<Alldata />} />
         <Route path="/allregisters" element={<RegisterActivate />} />
+
+        <Route path="/contest/:id" element={<ContestDetail />} />
 
     </Routes>
   </BrowserRouter>
