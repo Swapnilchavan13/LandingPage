@@ -13,7 +13,7 @@ const contestData = [
     description: 'Get ready to unleash your creativity and dress up your pets in the most adorable and unique costumes. Our Pet Dressing Contest invites all pet owners to showcase their furry friends in cute, stylish, and safe outfits. Whether it’s a superhero cape, a princess gown, or a hilarious costume, let your imagination run wild. Join us for a fun-filled event where every pet gets to shine and make a lasting impression. Exciting prizes await the most creative and charming outfits!',
     prize: '₹ 1 Lakh',
     winners: 5,
-    images: ['dogshow.jpeg', 'dogshow.jpeg', 'dogshow.jpeg'],
+    images: ['dogshow.jpeg', 'https://m.media-amazon.com/images/I/513V0rQ2tCL._AC_UF1000,1000_QL80_.jpg', 'https://i.pinimg.com/564x/35/9b/51/359b5112b444e4c27109fad8962389c7.jpg'],
   },
   {
     id: 2,
