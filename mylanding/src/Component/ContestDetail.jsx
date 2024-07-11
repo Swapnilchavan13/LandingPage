@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -49,7 +49,7 @@ const contestData = [
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to top of the page when component mounts
       }, []);
-      
+
     const { id } = useParams();
     const contest = contestData.find(contest => contest.id === parseInt(id));
   
@@ -127,6 +127,11 @@ const contestData = [
       />
           </div>
           <button style={styles.btn}>REGISTER</button>
+
+          <Link to={`/cashbackfro`}> {/* Navigate to detailed view */}  
+          <button style={styles.btn}>Back</button>
+                </Link>
+
           </div>
          
         </div>

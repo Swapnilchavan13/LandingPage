@@ -122,7 +122,7 @@ export const CashBackFro = () => {
 
 const styles = {
   container: {
-    // maxWidth: 400,
+    maxWidth: 400,
     textAlign: 'center',
     margin: 'auto',
   },
