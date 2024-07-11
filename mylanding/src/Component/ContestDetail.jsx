@@ -205,7 +205,7 @@ const contestData = [
         gap: 10,
     },
     btn: {
-        borderRadius: '50px',
+        borderRadius: '8px',
         marginTop: '20px',
         width: '100%',
         // backgroundColor: 'red'
