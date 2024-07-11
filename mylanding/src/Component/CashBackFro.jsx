@@ -105,7 +105,7 @@ export const CashBackFro = () => {
           <div style={styles.contentdiv}>
             <h4>{contest.likes} likes</h4>
             <div style={styles.content2}>
-              <h3>{contest.title}</h3>
+              <h4>{contest.title}</h4>
               <p style={isTruncated[index] ? styles.para : styles.fullPara}>
                 {contest.description}
               </p>
@@ -136,7 +136,7 @@ const styles = {
     gap: '20px'
   },
   logoimage: {
-    marginTop: '13px',
+    marginTop: '10px',
     borderRadius: '50%',
     width: '40px',
     height: '40px'
