@@ -7,7 +7,7 @@ export const Alldata = () => {
   const [appSection, setAppSection] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productCategories, setProductCategories] = useState([]);
-  const baseUrl = 'http://62.72.59.146:3080/';
+  const baseUrl = 'http://localhost:3080/';
 
   useEffect(() => {
     // Fetch the data from the API
@@ -39,9 +39,9 @@ export const Alldata = () => {
     const formData = new FormData(event.target);
 
     try {
-      await axios.put(`http://62.72.59.146:3080/update/${editingProduct._id}`, formData);
+      await axios.put(`http://localhost:3080/update/${editingProduct._id}`, formData);
       // Refresh the data
-      const response = await axios.get('http://62.72.59.146:3080/formdata');
+      const response = await axios.get('http://localhost:3080/formdata');
       setProducts(response.data);
       setEditingProduct(null);
     } catch (error) {
@@ -90,7 +90,7 @@ export const Alldata = () => {
           <p>Enter Price</p>
           
           <input type="number" name="price" defaultValue={editingProduct.price}  />
-          <p>Enter Discounted Price</p>
+          <p>Enter Discounte Percentage</p>
           
           <input type="number" name="discountedPrice" defaultValue={editingProduct.discountedPrice}  />
           <br />
@@ -109,12 +109,17 @@ export const Alldata = () => {
               <p style={styles.description}>Description: {product.description}</p>
               <p style={styles.excerptDescription}>Excerpt Description: {product.excerptDescription}</p>
               <div style={styles.imageContainer}>
+              <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
+
                 <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
+                <img src={`${baseUrl}${product.additionalPhoto1}`} alt={product.title} style={styles.image} />
+                <img src={`${baseUrl}${product.additionalPhoto2}`} alt={product.title} style={styles.image} />
+
               </div>
               <p style={styles.offerHeadline}>{product.videoLink}</p>
               <p style={styles.price}>Price: Rs.{product.price}</p>
-              <p style={styles.discountedPrice}>Discounted Price: Rs.{product.discountedPrice}</p>
+              <p style={styles.discountedPrice}>Discounted Percentage: {product.discountedPrice}%</p>
               <button onClick={() => handleEditClick(product)}>Edit</button>
             </div>
           ))}
@@ -171,13 +176,14 @@ const styles = {
   },
   imageContainer: {
     display: 'flex',
+    width: '100%',
     justifyContent: 'center',
     gap: '10px',
     margin: '10px 0',
   },
   image: {
-    width: '300px',
-    height: '300px',
+    width: '200px',
+    height: '200px',
     objectFit: 'cover',
     borderRadius: '4px',
   },

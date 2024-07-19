@@ -9,41 +9,48 @@ import { Vanswer } from './Component/Vanswer';
 import { Ianswer } from './Component/Ianswer';
 import { Success } from './Component/Success';
 import { WalletDetails } from './Component/WalletDetails';
-import { CashbackForm } from './Component/Cashbackdetails';
+import { GameCms } from './Component/GameCms';
 import { CashBackFro } from './Component/CashBackFro';
-// import { QrScanner } from './Component/QrScanner';
 import { LikeButton } from './Component/Like';
 import { Researchdataentry } from './Component/Researchdataentry';
 import { Alldata } from './Component/Alldata';
 import { RegisterActivate } from './Component/RegisterActivate';
 import { ContestDetail } from './Component/ContestDetail';
-
-
+import UpdateGame from './Component/UpdateGame';
+import AddGame from './Component/AddGame';
+import GameList from './Component/GameList';
+import ProtectedRoute from './Component/ProtectedRoute';
+import { Login } from './Component/Login';
+import { AuthProvider } from './Component/AuthContext';
 
 function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-        <Route path="/" element={<RegistrationForm />} />
-        <Route path="/clicker" element={<ClickerInfo />} />
-        <Route path="/otp" element={<OTPForm />} />
-        <Route path="/email" element={<EmailVerification />} />
-        <Route path="/survey" element={<Survey />} />
-        <Route path="/vans" element={<Vanswer />} />
-        <Route path="/ians" element={<Ianswer />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/wallet" element={<WalletDetails />} />
-        <Route path="/cashback" element={<CashbackForm />} />
-        <Route path="/cashbackfro" element={<CashBackFro />} />
-        <Route path="/like" element={<LikeButton />} />
-        <Route path="/research" element={<Researchdataentry />} />
-        <Route path="/alldata" element={<Alldata />} />
-        <Route path="/allregisters" element={<RegisterActivate />} />
-
-        <Route path="/contest/:id" element={<ContestDetail />} />
-
-    </Routes>
-  </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<RegistrationForm />} />
+          <Route path="/clicker" element={<ClickerInfo />} />
+          <Route path="/otp" element={<OTPForm />} />
+          <Route path="/email" element={<EmailVerification />} />
+          <Route path="/survey" element={<Survey />} />
+          <Route path="/vans" element={<Vanswer />} />
+          <Route path="/ians" element={<Ianswer />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/wallet" element={<WalletDetails />} />
+          <Route path="/gamecms" element={<GameCms />} />
+          <Route path="/cashbackfro" element={<CashBackFro />} />
+          <Route path="/like" element={<LikeButton />} />
+          <Route path="/alldata" element={<Alldata />} />
+          <Route path="/allregisters" element={<RegisterActivate />} />
+          <Route path="/addgame" element={<AddGame />} />
+          <Route path="/gamelist" element={<GameList />} />
+          <Route path="/contest/:id" element={<ContestDetail />} />
+          <Route path="/update/:id" element={<UpdateGame />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/research" element={<ProtectedRoute element={<Researchdataentry />} />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,52 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Link } from 'react-router-dom'; // Import Link
-import '../styles/customStyles.css';
-
-const contestData = [
-  {
-    id: 1,
-    title: 'Pet Dressing Contest',
-    likes: 20,
-    description: 'Get ready to unleash your creativity and dress up your pets in the most adorable and unique costumes. Our Pet Dressing Contest invites all pet owners to showcase their furry friends in cute, stylish, and safe outfits. Whether it’s a superhero cape, a princess gown, or a hilarious costume, let your imagination run wild. Join us for a fun-filled event where every pet gets to shine and make a lasting impression. Exciting prizes await the most creative and charming outfits!',
-    prize: '₹ 1 Lakh',
-    winners: 5,
-    images: ['dogshow.jpeg', 'https://m.media-amazon.com/images/I/513V0rQ2tCL._AC_UF1000,1000_QL80_.jpg', 'https://i.pinimg.com/564x/35/9b/51/359b5112b444e4c27109fad8962389c7.jpg'],
-  },
-  {
-    id: 2,
-    title: 'Fancy Dress Contest',
-    likes: 30,
-    description: 'Step into the spotlight and dazzle us with your creativity at our Fancy Dress Contest! This is your chance to express yourself through elaborate and imaginative costumes that showcase your personality and flair. Whether you opt for a classic character, a whimsical creation, or an innovative ensemble, we want to see it all. Join us for an entertaining event where participants of all ages can strut their stuff and compete for fabulous prizes. Don’t miss out on this opportunity to shine and have fun!',
-    prize: '₹ 1 Lakh',
-    winners: 5,
-    images: ['fancydress.png', 'fancydress.png', 'fancydress.png'],
-  },
-  {
-    id: 3,
-    title: 'Chess Competition',
-    likes: 40,
-    description: 'Calling all chess enthusiasts! Our Chess Competition is the ultimate test of strategy, skill, and mental agility. Challenge yourself against top players and prove your prowess in this intellectually stimulating event. Whether you’re a seasoned grandmaster or an aspiring player, this competition offers a platform to showcase your strategic thinking and compete for top honors. With a thrilling atmosphere and high stakes, it’s time to make your move and aim for the championship!',
-    prize: '₹ 1 Lakh',
-    winners: 5,
-    images: ['chess.png', 'chess.png', 'chess.png'],
-  },
-  {
-    id: 4,
-    title: 'Gaming Tournament',
-    likes: 50,
-    description: 'Gear up for the ultimate Gaming Tournament where gamers from all corners come together to battle it out in the most exciting and challenging games. This is not just a competition; it’s a celebration of gaming culture, skills, and strategies. From high-octane action games to strategic challenges, showcase your gaming prowess and vie for the top spot. With impressive prizes and intense matches, this tournament promises to be an electrifying experience for players and spectators alike!',
-    prize: '₹ 1 Lakh',
-    winners: 5,
-    images: ['game.png', 'game.png', 'game.png'],
-  }
-];
-
+import { Link } from 'react-router-dom';
 
 export const CashBackFro = () => {
-  const [isTruncated, setIsTruncated] = useState(contestData.map(() => true));
+  const [contests, setContests] = useState([]);
+  const [isTruncated, setIsTruncated] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3005/games')
+      .then(response => {
+        const data = response.data;
+        setContests(data);
+        setIsTruncated(data.map(() => true));
+
+        // Extract unique categories from the contests
+        const uniqueCategories = ['All', ...new Set(data.map(contest => contest.category))];
+        setCategories(uniqueCategories);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
   const toggleTruncate = (index) => {
     setIsTruncated(prevState => {
@@ -64,26 +45,51 @@ export const CashBackFro = () => {
     slidesToScroll: 1,
   };
 
+  // Filter contests based on the selected category
+  const filteredContests = selectedCategory === 'All' 
+    ? contests 
+    : contests.filter(contest => contest.category === selectedCategory);
+
   return (
     <div style={styles.container}>
-       {contestData.map((contest, index) => (
+      <div id='mainselecttag'>
+  <select value={selectedCategory} onChange={handleCategoryChange}>
+    {categories.map((category, index) => (
+      <option key={index} value={category}>
+        {category}
+      </option>
+    ))}
+  </select>
+  <div id='scrollContainer'>
+    {categories.map((category, index) => (
+      <h3
+        key={index}
+        style={selectedCategory === category ? styles.selectedCategory : styles.category}
+        onClick={() => setSelectedCategory(category)}
+      >
+        {category}
+      </h3>
+    ))}
+  </div>
+</div>
+
+      {filteredContests.map((contest, index) => (
         <div
-          key={contest.id}
+          key={contest._id}
           style={{
             ...styles.content,
-            marginTop: index === 0 ? '0' : '-60px', // Adjust margin here
+            marginTop: index === 0 ? '0' : '-60px',
           }}
         >
-
           <div style={styles.user}>
-            <img style={styles.logoimage} src="Localite_icon.png" alt="Localite Icon" />
-            <h3>Localite</h3>
+            <img style={styles.logoimage} src={contest.logo} alt={contest.organizerName} />
+            <h3>{contest.organizerName}</h3>
           </div>
 
           <Slider {...settings}>
             {contest.images.map((image, idx) => (
               <div key={idx}>
-                <Link to={`/contest/${contest.id}`}> {/* Navigate to detailed view */}
+                <Link to={`/contest/${contest._id}`}>
                   <img style={styles.contestimg} src={image} alt={contest.title} />
                 </Link>
               </div>
@@ -186,6 +192,13 @@ const styles = {
   more: {
     marginTop: '-16px',
     color: 'blue',
+    cursor: 'pointer',
+  },
+  selectedCategory: {
+    color: 'blue',
+    cursor: 'pointer',
+  },
+  category: {
     cursor: 'pointer',
   },
 };
