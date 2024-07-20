@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const users = [
-    { username: 'user', password: '1234' },
-    { username: 'user2', password: 'password2' },
-    { username: 'user3', password: 'password3' },
+    { id: 1, username: 'user', password: '1234' },
+    { id: 2, username: 'user2', password: 'password2' },
+    { id: 3, username: 'user3', password: 'password3' },
   ];
 
   const { login } = useAuth();
@@ -23,7 +23,7 @@ export const Login = () => {
     );
 
     if (user) {
-      login(username); // Call login from AuthContext
+      login(user.username); // Call login from AuthContext with user ID
       navigate('/research'); // Use navigate for redirection
     } else {
       setError('Invalid username or password');

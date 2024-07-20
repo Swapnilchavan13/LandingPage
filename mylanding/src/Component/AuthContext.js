@@ -6,21 +6,20 @@ const AuthContext = createContext();
 
 // Provide Context
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  // Check localStorage for existing user on mount
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
+    // Initialize user from localStorage
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  useEffect(() => {
+    // Save user to localStorage whenever it changes
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   const login = (username) => {
     // Simulate login (you can replace this with actual authentication logic)
-    const user = { username };
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user)); // Save user to localStorage
+    setUser({ username });
   };
 
   const logout = () => {
