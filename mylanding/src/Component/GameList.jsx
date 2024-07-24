@@ -6,13 +6,13 @@ const GameList = () => {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3005/games')
+    axios.get('http://62.72.59.146:3005/games')
       .then(response => setGames(response.data))
       .catch(error => console.error('Error fetching games:', error));
   }, []);
 
   const deleteGame = (id) => {
-    axios.delete(`http://localhost:3005/games/${id}`)
+    axios.delete(`http://62.72.59.146:3005/games/${id}`)
       .then(() => setGames(games.filter(game => game._id !== id)))
       .catch(error => console.error('Error deleting game:', error));
   };

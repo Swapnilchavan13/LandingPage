@@ -7,7 +7,7 @@ export const Alldata = () => {
   const [appSection, setAppSection] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productCategories, setProductCategories] = useState([]);
-  const baseUrl = 'http://localhost:3080/';
+  const baseUrl = 'http://62.72.59.146:3080/';
 
   useEffect(() => {
     // Fetch the data from the API
