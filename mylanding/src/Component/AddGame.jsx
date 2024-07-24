@@ -63,7 +63,7 @@ export const AddGame = () => {
       form.append(key, formData[key]);
     });
 
-    axios.post('http://localhost:3005/games', form, {
+    axios.post('http://62.72.59.146:3005/games', form, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then(() => navigate('/gamelist'))

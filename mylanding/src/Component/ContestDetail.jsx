@@ -14,7 +14,7 @@ export const ContestDetail = () => {
     window.scrollTo(0, 0); // Scroll to top of the page when component mounts
 
     // Fetch contest data from the API
-    axios.get(`http://localhost:3005/games/${id}`)
+    axios.get(`http://62.72.59.146:3005/games/${id}`)
       .then(response => setContest(response.data))
       .catch(error => console.error('Error fetching contest:', error));
   }, [id]);

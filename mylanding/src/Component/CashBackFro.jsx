@@ -12,7 +12,7 @@ export const CashBackFro = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3005/games')
+    axios.get('http://62.72.59.146:3005/games')
       .then(response => {
         const data = response.data;
         setContests(data);
