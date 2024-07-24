@@ -37,30 +37,40 @@ export const Researchdataentry = () => {
   useEffect(() => {
     if (brandImage) {
       setBrandImagePreview(URL.createObjectURL(brandImage));
+    } else {
+      setBrandImagePreview('');
     }
   }, [brandImage]);
 
   useEffect(() => {
     if (photo) {
       setPhotoPreview(URL.createObjectURL(photo));
+    } else {
+      setPhotoPreview('');
     }
   }, [photo]);
 
   useEffect(() => {
     if (photo2) {
       setPhoto2Preview(URL.createObjectURL(photo2));
+    } else {
+      setPhoto2Preview('');
     }
   }, [photo2]);
 
   useEffect(() => {
     if (additionalPhoto1) {
       setAdditionalPhoto1Preview(URL.createObjectURL(additionalPhoto1));
+    } else {
+      setAdditionalPhoto1Preview('');
     }
   }, [additionalPhoto1]);
 
   useEffect(() => {
     if (additionalPhoto2) {
       setAdditionalPhoto2Preview(URL.createObjectURL(additionalPhoto2));
+    } else {
+      setAdditionalPhoto2Preview('');
     }
   }, [additionalPhoto2]);
 
@@ -132,12 +142,18 @@ export const Researchdataentry = () => {
       setVideoLink('');
       setPrice('');
       setDiscountedPrice('');
+
+      // Increment entry count
+      incrementEntryCount();
     } catch (err) {
       console.error('Error submitting form', err);
       alert('Error submitting form. Please try again.');
     }
   };
 
+  const incrementEntryCount = () => {
+    setEntryCount(prevCount => prevCount + 1);
+  };
 
   return (
     <>
@@ -246,7 +262,7 @@ export const Researchdataentry = () => {
 
         <div className="form-group">
           <label>Upload Brand Image:</label>
-          <input className='fimg' type="file" onChange={(e) => setBrandImage(e.target.files[0])} />
+          <input type="file" onChange={(e) => setBrandImage(e.target.files[0])} />
           {brandImagePreview && <img src={brandImagePreview} alt="Brand Preview" className="image-preview" />}
         </div>
 
@@ -256,47 +272,47 @@ export const Researchdataentry = () => {
         </div>
 
         <div className="form-group">
-          <label>Headline:</label>
+          <label>Offer Headline:</label>
           <input type="text" value={offerHeadline} onChange={(e) => setOfferHeadline(e.target.value)} placeholder="Enter offer headline" />
         </div>
 
         <div className="form-group">
           <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Enter description" rows="5" />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Enter description"></textarea>
         </div>
 
         <div className="form-group">
           <label>Excerpt Description:</label>
-          <textarea value={excerptDescription} onChange={(e) => setExcerptDescription(e.target.value)} placeholder="Enter excerpt description" rows="3" />
+          <textarea value={excerptDescription} onChange={(e) => setExcerptDescription(e.target.value)} placeholder="Enter excerpt description"></textarea>
         </div>
 
         <div className="form-group">
           <label>Upload Photo:</label>
-          <input className='fimg' type="file" onChange={(e) => setPhoto(e.target.files[0])} />
+          <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
           {photoPreview && <img src={photoPreview} alt="Photo Preview" className="image-preview" />}
         </div>
 
         <div className="form-group">
-          <label>Video Link:</label>
-          <input type="text" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter video link" />
-        </div>
-
-        <div className="form-group">
           <label>Upload Photo 2:</label>
-          <input className='fimg' type="file" onChange={(e) => setPhoto2(e.target.files[0])} />
+          <input type="file" onChange={(e) => setPhoto2(e.target.files[0])} />
           {photo2Preview && <img src={photo2Preview} alt="Photo 2 Preview" className="image-preview" />}
         </div>
 
         <div className="form-group">
           <label>Upload Additional Photo 1:</label>
-          <input className='fimg' type="file" onChange={(e) => setAdditionalPhoto1(e.target.files[0])} />
+          <input type="file" onChange={(e) => setAdditionalPhoto1(e.target.files[0])} />
           {additionalPhoto1Preview && <img src={additionalPhoto1Preview} alt="Additional Photo 1 Preview" className="image-preview" />}
         </div>
 
         <div className="form-group">
           <label>Upload Additional Photo 2:</label>
-          <input className='fimg' type="file" onChange={(e) => setAdditionalPhoto2(e.target.files[0])} />
+          <input type="file" onChange={(e) => setAdditionalPhoto2(e.target.files[0])} />
           {additionalPhoto2Preview && <img src={additionalPhoto2Preview} alt="Additional Photo 2 Preview" className="image-preview" />}
+        </div>
+
+        <div className="form-group">
+          <label>Video Link:</label>
+          <input type="text" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} placeholder="Enter video link" />
         </div>
 
         <div className="form-group">

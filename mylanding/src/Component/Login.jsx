@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-  const users = [
-    { id: 1, username: 'user', password: '1234' },
-    { id: 2, username: 'user2', password: 'password2' },
-    { id: 3, username: 'user3', password: 'password3' },
-  ];
-
-  const { login } = useAuth();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [merchants, setMerchants] = useState([]);
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [loginPin, setLoginPin] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Use this for navigation
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMerchants = async () => {
+      try {
+        const response = await fetch('https://localitebackend.localite.services/allmerchants');
+        const data = await response.json();
+        setMerchants(data);
+      } catch (error) {
+        console.error('Error fetching merchants:', error);
+      }
+    };
+
+    fetchMerchants();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = users.find(
-      (u) => u.username === username && u.password === password
+    const user = merchants.find(
+      (merchant) => merchant.contactPhoneNumber === mobileNumber && merchant.loginPin === loginPin
     );
 
     if (user) {
-      login(user.username); // Call login from AuthContext with user ID
+      login(user.contactPhoneNumber); // Call login from AuthContext with user's phone number
       navigate('/research'); // Use navigate for redirection
     } else {
-      setError('Invalid username or password');
+      setError('Invalid mobile number or PIN');
     }
   };
 
@@ -35,22 +44,22 @@ export const Login = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="mobileNumber">Mobile Number:</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="tel"
+            id="mobileNumber"
+            value={mobileNumber}
+            onChange={(e) => setMobileNumber(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="loginPin">Login PIN:</label>
           <input
             type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            id="loginPin"
+            value={loginPin}
+            onChange={(e) => setLoginPin(e.target.value)}
             required
           />
         </div>

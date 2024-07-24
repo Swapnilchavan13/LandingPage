@@ -22,6 +22,7 @@ import GameList from './Component/GameList';
 import ProtectedRoute from './Component/ProtectedRoute';
 import { Login } from './Component/Login';
 import { AuthProvider } from './Component/AuthContext';
+import { MerchantRegistration } from './Component/MerchantRegistration';
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
           <Route path="/contest/:id" element={<ContestDetail />} />
           <Route path="/update/:id" element={<UpdateGame />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/merchantregistration" element={<MerchantRegistration />} />
+
           <Route path="/research" element={<ProtectedRoute element={<Researchdataentry />} />} />
         </Routes>
       </BrowserRouter>
