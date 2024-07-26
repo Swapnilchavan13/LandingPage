@@ -1,6 +1,5 @@
 import './App.css';
 import { ClickerInfo } from './Component/ClickerInfo';
-import EmailVerification from './Component/Email';
 import OTPForm from './Component/OtpForm';
 import { RegistrationForm } from './Component/RegistrationForm';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -23,6 +22,7 @@ import ProtectedRoute from './Component/ProtectedRoute';
 import { Login } from './Component/Login';
 import { AuthProvider } from './Component/AuthContext';
 import { MerchantRegistration } from './Component/MerchantRegistration';
+import { Firstformdata } from './Component/Firstformdata';
 
 function App() {
   return (
@@ -32,7 +32,6 @@ function App() {
           <Route path="/" element={<RegistrationForm />} />
           <Route path="/clicker" element={<ClickerInfo />} />
           <Route path="/otp" element={<OTPForm />} />
-          <Route path="/email" element={<EmailVerification />} />
           <Route path="/survey" element={<Survey />} />
           <Route path="/vans" element={<Vanswer />} />
           <Route path="/ians" element={<Ianswer />} />
@@ -49,6 +48,8 @@ function App() {
           <Route path="/update/:id" element={<UpdateGame />} />
           <Route path="/login" element={<Login />} />
           <Route path="/merchantregistration" element={<MerchantRegistration />} />
+
+          <Route path="/firstformdata" element={<Firstformdata />} />
 
           <Route path="/research" element={<ProtectedRoute element={<Researchdataentry />} />} />
         </Routes>
