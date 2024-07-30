@@ -10,7 +10,7 @@ export const Firstformdata = () => {
   useEffect(() => {
     axios.get('https://localitebackend.localite.services/getmerchants')
       .then(response => {
-        setMerchants(response.data);
+        setMerchants(response.data.reverse());
         setFilteredMerchants(response.data);
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -75,12 +75,15 @@ export const Firstformdata = () => {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
+                  <a href={`https://localitebackend.localite.services/${merchant.profileImage}`} target='_blank'>
                   <img src={`https://localitebackend.localite.services/${merchant.profileImage}`} alt={merchant.businessName} id="media" />
+                  </a>
                 )}
               </div>
             )}
             <div id="field">
               <label id="label">Brand Logo:</label>
+              <a href={`https://localitebackend.localite.services/${merchant.brandLogo}`} target="_blank" ></a>
               <img src={`https://localitebackend.localite.services/${merchant.brandLogo}`} alt={`${merchant.businessName} logo`} id="media" />
             </div>
             <div id="field">
@@ -138,6 +141,10 @@ export const Firstformdata = () => {
             <div id="field">
               <label id="label">Bank Account Details:</label>
               <p>{merchant.bankAccountDetails}</p>
+            </div>
+            <div id="field">
+              <label id="label">Updated date:</label>
+              <p>{merchant.createdAt}</p>
             </div>
           </div>
         ))}

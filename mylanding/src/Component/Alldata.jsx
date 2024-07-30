@@ -7,14 +7,18 @@ export const Alldata = () => {
   const [appSection, setAppSection] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productCategories, setProductCategories] = useState([]);
-  const baseUrl = 'http://62.72.59.146:3080/';
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [brands, setBrands] = useState([]);
+  const baseUrl = 'https://localitebackend.localite.services/';
 
   useEffect(() => {
     // Fetch the data from the API
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://62.72.59.146:3080/formdata');
+        const response = await axios.get('https://localitebackend.localite.services/formdata');
         setProducts(response.data);
+        const uniqueBrands = [...new Set(response.data.map(product => product.brand))];
+        setBrands(uniqueBrands);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -39,9 +43,9 @@ export const Alldata = () => {
     const formData = new FormData(event.target);
 
     try {
-      await axios.put(`http://localhost:3080/update/${editingProduct._id}`, formData);
+      await axios.put(`https://localitebackend.localite.services/update/${editingProduct._id}`, formData);
       // Refresh the data
-      const response = await axios.get('http://localhost:3080/formdata');
+      const response = await axios.get('https://localitebackend.localite.services/formdata');
       setProducts(response.data);
       setEditingProduct(null);
     } catch (error) {
@@ -49,13 +53,29 @@ export const Alldata = () => {
     }
   };
 
+  const filteredProducts = selectedBrand
+    ? products.filter((product) => product.brand === selectedBrand)
+    : products;
+
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Edit Products Details</h1>
       <br />
       <br />
+      <select
+        value={selectedBrand}
+        onChange={(e) => setSelectedBrand(e.target.value)}
+        style={styles.searchInput}
+      >
+        <option value="">Select a brand</option>
+        {brands.map((brand, index) => (
+          <option key={index} value={brand}>
+            {brand}
+          </option>
+        ))}
+      </select>
       {editingProduct ? (
-        <form  onSubmit={handleUpdate} style={styles.editdiv}>
+        <form onSubmit={handleUpdate} style={styles.editdiv}>
           <p>Select Type:</p>
           <select value={appSection} onChange={(e) => setAppSection(e.target.value)} name="appSection" style={styles.input} required>
             <option value="">Select...</option>
@@ -63,36 +83,30 @@ export const Alldata = () => {
             <option value="offers">Offers</option>
             <option value="free">Free</option>
           </select>
-<p>Select Category:</p>
+          <p>Select Category:</p>
           <select value={productCategory} onChange={(e) => setProductCategory(e.target.value)} name="productCategory" style={styles.input} required>
             <option value="">Select...</option>
             {productCategories.map((category, index) => (
               <option key={index} value={category}>{category}</option>
             ))}
           </select>
-<p>Enter Brand name:</p>
-          <input type="text" name="brand" defaultValue={editingProduct.brand}  />
-<p>Enter Title:</p>
-
-          <input type="text" name="title" defaultValue={editingProduct.title}  />
+          <p>Enter Brand name:</p>
+          <input type="text" name="brand" defaultValue={editingProduct.brand} />
+          <p>Enter Title:</p>
+          <input type="text" name="title" defaultValue={editingProduct.title} />
           <p>Enter Headline:</p>
-          <input type="text" name="offerHeadline" defaultValue={editingProduct.offerHeadline}  />
+          <input type="text" name="offerHeadline" defaultValue={editingProduct.offerHeadline} />
           <p>Enter Description</p>
-          <textarea style={{width:"800px", height:"100px"}} name="description" defaultValue={editingProduct.description}  />
+          <textarea style={{ width: "800px", height: "100px" }} name="description" defaultValue={editingProduct.description} />
           <br />
           <p>Enter Excerpt Description</p>
-
-          <textarea style={{width:"800px", height:"100px"}} name="excerptDescription" defaultValue={editingProduct.excerptDescription}  />
-          {/* <input type="file" name="photo" /> */}
-          {/* <input type="file" name="photo2" /> */}
+          <textarea style={{ width: "800px", height: "100px" }} name="excerptDescription" defaultValue={editingProduct.excerptDescription} />
           <p>Enter Video Link</p>
-          <input type="text" name="videoLink" defaultValue={editingProduct.videoLink}  />
+          <input type="text" name="videoLink" defaultValue={editingProduct.videoLink} />
           <p>Enter Price</p>
-          
-          <input type="number" name="price" defaultValue={editingProduct.price}  />
-          <p>Enter Discounte Percentage</p>
-          
-          <input type="number" name="discountedPrice" defaultValue={editingProduct.discountedPrice}  />
+          <input type="number" name="price" defaultValue={editingProduct.price} />
+          <p>Enter Discount Percentage</p>
+          <input type="number" name="discountedPrice" defaultValue={editingProduct.discountedPrice} />
           <br />
           <br />
           <button type="submit">Update</button>
@@ -100,7 +114,7 @@ export const Alldata = () => {
         </form>
       ) : (
         <div style={styles.productList}>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div key={product._id} style={styles.productCard}>
               <h3 style={styles.offerHeadline}>{product.appSection}</h3>
               <h3 style={styles.offerHeadline}>Brand: {product.brand}</h3>
@@ -109,13 +123,11 @@ export const Alldata = () => {
               <p style={styles.description}>Description: {product.description}</p>
               <p style={styles.excerptDescription}>Excerpt Description: {product.excerptDescription}</p>
               <div style={styles.imageContainer}>
-              <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
-
+                <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.additionalPhoto1}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.additionalPhoto2}`} alt={product.title} style={styles.image} />
-
               </div>
               <p style={styles.offerHeadline}>{product.videoLink}</p>
               <p style={styles.price}>Price: Rs.{product.price}</p>
@@ -130,12 +142,10 @@ export const Alldata = () => {
 };
 
 const styles = {
-
-  editdiv:{
-  textAlign:'left',
-  backgroundcolor: "red"
+  editdiv: {
+    textAlign: 'left',
+    backgroundColor: "red"
   },
- 
   container: {
     width: '80%',
     margin: '0 auto',
@@ -147,11 +157,19 @@ const styles = {
     margin: '20px 0',
     color: '#333',
   },
+  searchInput: {
+    padding: '10px',
+    fontSize: '1em',
+    width: '50%',
+    margin: '20px 0',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+  },
   productList: {
     justifyContent: 'space-around',
   },
   productCard: {
-    margin:'auto',
+    margin: 'auto',
     width: '100%',
     border: '1px solid #ccc',
     borderRadius: '8px',
@@ -196,4 +214,3 @@ const styles = {
     color: '#27ae60',
   },
 };
-
