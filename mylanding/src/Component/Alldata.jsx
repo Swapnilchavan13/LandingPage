@@ -127,9 +127,13 @@ export const Alldata = () => {
                 <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
                 <img src={`${baseUrl}${product.additionalPhoto1}`} alt={product.title} style={styles.image} />
-                <img src={`${baseUrl}${product.additionalPhoto2}`} alt={product.title} style={styles.image} />
+                <video controls style={{width:"110px"}}>
+  <source src={`${baseUrl}${product.additionalPhoto2}`} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
               </div>
               <p style={styles.offerHeadline}>{product.videoLink}</p>
+              <p style={styles.price}>Units: {product.unit}</p>
               <p style={styles.price}>Price: Rs.{product.price}</p>
               <p style={styles.discountedPrice}>Discounted Percentage: {product.discountedPrice}%</p>
               <button onClick={() => handleEditClick(product)}>Edit</button>

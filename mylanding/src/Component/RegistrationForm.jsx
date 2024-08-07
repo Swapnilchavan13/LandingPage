@@ -132,16 +132,25 @@ export const RegistrationForm = () => {
 
       const { message } = response.data;
       setMessage(message);
-      if (response.data == "OTP verified success" || "Mobile no. already verified") {  
-        console.log(response.data)
 
-        setOtpVerified(true); // Set OTP verified to true if successful
-      }
-    } catch (error) {
-      console.error(error);
-      setMessage("Failed to verify OTP. Please try again later.");
+        // Check the status code and handle accordingly
+    if (response.status === 200) {
+      setMessage(response.data.message);
+      setOtpVerified(true); // Set OTP verified to true if successful
+      alert("Received OTP from backend:", response.data.otp);
+      console.log("OTP verified successfully:", response.data.message);
+
+     
+      
+    } else {
+      setMessage(response.data.message || "Failed to verify OTP.");
+      console.log("OTP verification failed:", response.data.message);
     }
-  };
+  } catch (error) {
+    console.error("Error during OTP verification:", error);
+    setMessage("Failed to verify OTP. Please try again later.");
+  }
+};
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
