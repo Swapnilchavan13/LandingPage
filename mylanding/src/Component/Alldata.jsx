@@ -123,15 +123,26 @@ export const Alldata = () => {
               <p style={styles.description}>Description: {product.description}</p>
               <p style={styles.excerptDescription}>Excerpt Description: {product.excerptDescription}</p>
               <div style={styles.imageContainer}>
-                <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
-                <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
-                <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
-                <img src={`${baseUrl}${product.additionalPhoto1}`} alt={product.title} style={styles.image} />
-                <video controls style={{width:"110px"}}>
-  <source src={`${baseUrl}${product.additionalPhoto2}`} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-              </div>
+  {product.brandImage && (
+    <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
+  )}
+  {product.photo && (
+    <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
+  )}
+  {product.photo2 && (
+    <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
+  )}
+  {product.additionalPhoto1 && (
+    <img src={`${baseUrl}${product.additionalPhoto1}`} alt={product.title} style={styles.image} />
+  )}
+  {product.additionalPhoto2 && (
+    <video controls style={{ width: "110px" }}>
+      <source src={`${baseUrl}${product.additionalPhoto2}`} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  )}
+</div>
+
               <p style={styles.offerHeadline}>{product.videoLink}</p>
               <p style={styles.price}>Units: {product.unit}</p>
               <p style={styles.price}>Price: Rs.{product.price}</p>
