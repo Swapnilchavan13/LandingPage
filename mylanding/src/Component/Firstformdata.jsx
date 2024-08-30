@@ -6,34 +6,75 @@ export const Firstformdata = () => {
   const [merchants, setMerchants] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredMerchants, setFilteredMerchants] = useState([]);
+  const [showTable, setShowTable] = useState(false); // State to control table visibility
 
   useEffect(() => {
-    axios.get('https://localitebackend.localite.services/getmerchants')
-      .then(response => {
+    axios
+      .get('https://localitebackend.localite.services/getmerchants')
+      .then((response) => {
         setMerchants(response.data.reverse());
         setFilteredMerchants(response.data);
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   useEffect(() => {
     setFilteredMerchants(
-      merchants.filter(merchant =>
+      merchants.filter((merchant) =>
         merchant.contactPhoneNumber.includes(search)
       )
     );
   }, [search, merchants]);
 
+  const toggleTableVisibility = () => {
+    setShowTable((prevShowTable) => !prevShowTable);
+  };
+
   return (
     <div id="container">
-      <h1>First Form Data (Merchant)</h1>
+       <h1>First Form Data (Merchant)</h1>
       <input
         type="text"
         placeholder="Search by mobile number"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         id="searchInput"
       />
+
+      <br />
+
+      <button onClick={toggleTableVisibility} id="toggleButton">
+        {showTable ? 'Hide Table' : 'Show Table'}
+      </button>
+      <h3>Total Registered Merchants: {merchants.length}</h3>
+
+      {showTable && (
+        
+        <table id="merchantTable">
+          <thead>
+            <tr>
+              <th>Business Name</th>
+              <th>Business Type</th>
+              <th>Person Name</th>
+              <th>Contact Phone Number</th>
+              <th>Created Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredMerchants.map((merchant) => (
+              <tr key={merchant._id}>
+                <td>{merchant.businessName}</td>
+                <td>{merchant.businessType}</td>
+                <td>{merchant.personName} {merchant.lastName}</td>
+                <td>{merchant.contactPhoneNumber}</td>
+                <td>{new Date(merchant.createdAt).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <br />
+
       <div id="merchantCarddiv">
         {filteredMerchants.map(merchant => (
           <div key={merchant._id} id="merchantCard">

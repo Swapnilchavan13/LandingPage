@@ -1,6 +1,49 @@
 #container {
     padding: 20px;
   }
+
+  #toggleButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 20px 0;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  #toggleButton:hover {
+    background-color: #45a049;
+  }
+  
+  #merchantTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  #merchantTable th,
+  #merchantTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  #merchantTable th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  #merchantTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #merchantTable tr:hover {
+    background-color: #e6f7ff;
+  }
+  
   
   #searchInput {
     padding: 10px;
