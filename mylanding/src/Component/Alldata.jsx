@@ -126,9 +126,21 @@ export const Alldata = () => {
   {product.brandImage && (
     <img src={`${baseUrl}${product.brandImage}`} alt={product.title} style={styles.image} />
   )}
-  {product.photo && (
-    <img src={`${baseUrl}${product.photo}`} alt={product.title} style={styles.image} />
-  )}
+{product.photo && (
+  product.photo.toLowerCase().endsWith(".mp4") ? (
+    <video controls style={styles.video}>
+      <source  src={`${baseUrl}${product.photo}`} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  ) : (
+    <img
+      src={`${baseUrl}${product.photo}`}
+      alt={product.title}
+      style={styles.image}
+    />
+  )
+)}
+
   {product.photo2 && (
     <img src={`${baseUrl}${product.photo2}`} alt={product.title} style={styles.image} />
   )}
@@ -227,5 +239,10 @@ const styles = {
   discountedPrice: {
     fontSize: '1.2em',
     color: '#27ae60',
+  },
+  video: {
+    maxWidth: "100%",
+    maxHeight: "300px",
+    borderRadius: "10px",
   },
 };
