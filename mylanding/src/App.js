@@ -23,6 +23,7 @@ import { Login } from './Component/Login';
 import { AuthProvider } from './Component/AuthContext';
 import { MerchantRegistration } from './Component/MerchantRegistration';
 import { Firstformdata } from './Component/Firstformdata';
+import { AllUsers } from './Component/Allusers';
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
           <Route path="/update/:id" element={<UpdateGame />} />
           <Route path="/login" element={<Login />} />
           <Route path="/merchantregistration" element={<MerchantRegistration />} />
+
+          <Route path="/allusers" element={<AllUsers />} />
+
 
           <Route path="/firstformdata" element={<Firstformdata />} />
 
