@@ -20,7 +20,8 @@ export const AllUsers = () => {
     try {
       while (currentPage <= totalPages) {
         const response = await fetch(
-          `https://qljsn1wzw2.execute-api.ap-south-1.amazonaws.com/prod/api/user/all/data?page=${currentPage}`
+          
+          `https://hc29cfp8vj.execute-api.ap-south-1.amazonaws.com/prod/api/user/all/data?page=${currentPage}`
         );
         const data = await response.json();
 
@@ -254,13 +255,17 @@ export const AllUsers = () => {
             
 
              {/* Display total followers */}
-        <p><strong>Total Followers:</strong> {selectedUser.totalFollowers}</p>
+        <p><strong>Total Likes:</strong> {selectedUser.totalLikes}</p>
+
+        <p><strong>Total Followers:</strong> {selectedUser.following.length}</p>
+        
+        <p><strong>Total Following:</strong> {(selectedUser.followers).length}</p>
+
 
 {/* Display address details */}
 <p>
   <strong>Address:</strong><br />
-  Flat No: {selectedUser.flatNo}, {selectedUser.landmark}<br />
-  Additional Flat No: {selectedUser.additionalflatNo}, {selectedUser.additionalLandmark}<br />
+  Flat No: {selectedUser.flatNo}, {selectedUser.landmark}, {selectedUser.area}-{selectedUser.pinCode}<br />
 </p>
 
 
