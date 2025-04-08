@@ -50,25 +50,30 @@ export const AllUsers = () => {
   }, []);
 
   const handleSearch = (event) => {
-    const query = event.target.value;
+    const query = event.target.value.toLowerCase(); // Convert query to lowercase for case-insensitive search
     setSearchQuery(query);
-
+  
     if (query) {
-      const filtered = users.filter((user) =>
-        user.phoneNumber.includes(query)
+      const filtered = users.filter(
+        (user) =>
+          user.phoneNumber.includes(query) || 
+          user.userName.toLowerCase().includes(query) // Check if name includes the query
       );
       setFilteredUsers(filtered);
     } else {
       setFilteredUsers(users); // Reset to full list if query is empty
     }
   };
+  
 
   const showRealUsers = () => {
     const realUsers = users.filter(
       (user) =>
         !user.phoneNumber.startsWith("911") &&
+      !user.phoneNumber.startsWith("9111") &&
         !user.phoneNumber.startsWith("912") &&
-        !user.userName.startsWith("Localite") // Exclude names starting with 'Localite'
+        !user.userName.startsWith("Localite")
+
     );
     setFilteredUsers(realUsers);
     setRealUserCount(realUsers.length); // Update the count of real users
@@ -146,6 +151,12 @@ export const AllUsers = () => {
               <th style={{ border: "1px solid #ddd", padding: "8px" }}>
                 Registration Time
               </th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                Area
+              </th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                Referal code
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -198,6 +209,15 @@ export const AllUsers = () => {
                   <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                     {new Date(user.createdAt).toLocaleString()}
                   </td>
+                  <p>
+  <td>
+  {user.area}
+  </td>
+</p>
+<td>
+
+{user.referralId}
+</td>
                 </tr>
               ))
             ) : (
@@ -205,11 +225,13 @@ export const AllUsers = () => {
                 <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
                   No users found
                 </td>
-              </tr>
+             </tr>
+              
             )}
           </tbody>
         </table>
       )}
+
 
       {isModalOpen && selectedUser && (
         <div
@@ -267,8 +289,6 @@ export const AllUsers = () => {
   <strong>Address:</strong><br />
   Flat No: {selectedUser.flatNo}, {selectedUser.landmark}, {selectedUser.area}-{selectedUser.pinCode}<br />
 </p>
-
-
 
             <button
               style={{
