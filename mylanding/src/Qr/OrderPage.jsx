@@ -1,85 +1,114 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { QRCodeCanvas } from "qrcode.react";
+import '../styles/qrorders.css'; // import the CSS file
+ 
 
-const menu = [
-  { item: "Popcorn", price: 50 },
-  { item: "Sandwich", price: 40 },
-  { item: "Cookie", price: 20 },
-  { item: "Coffee", price: 30 },
-  { item: "Ice Cream", price: 35 },
+const menuItems = [
+  { name: "Popcorn", price: 100 },
+  { name: "Sandwich", price: 150 },
+  { name: "Cookie", price: 50 },
+  { name: "Coffee", price: 80 },
+  { name: "Ice Cream", price: 120 },
 ];
 
 const OrderPage = () => {
-  const [searchParams] = useSearchParams();
-  const seat = searchParams.get("seat");
-  const theater = searchParams.get("theater");
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const seat = params.get("seat");
 
-  const [quantities, setQuantities] = useState({});
-  const [total, setTotal] = useState(0);
-  const [paymentQR, setPaymentQR] = useState("");
+  const [order, setOrder] = useState({});
+  const [showQR, setShowQR] = useState(false);
 
   useEffect(() => {
-    let t = 0;
-    menu.forEach((item) => {
-      const qty = quantities[item.item] || 0;
-      t += qty * item.price;
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || {};
+    if (existingOrders[seat]) {
+      setOrder(existingOrders[seat]);
+    }
+  }, [seat]);
+
+  const handleAdd = (item) => {
+    setOrder((prev) => ({
+      ...prev,
+      [item.name]: (prev[item.name] || 0) + 1,
+    }));
+  };
+
+  const handleRemove = (item) => {
+    setOrder((prev) => {
+      const updated = { ...prev };
+      if (updated[item.name]) {
+        updated[item.name] -= 1;
+        if (updated[item.name] <= 0) {
+          delete updated[item.name];
+        }
+      }
+      return updated;
     });
-    setTotal(t);
-  }, [quantities]);
-
-  const handleQtyChange = (item, value) => {
-    const qty = Math.max(0, parseInt(value) || 0);
-    setQuantities((prev) => ({ ...prev, [item]: qty }));
   };
 
-  const handleOrder = () => {
-    const orderData = {
-      seat,
-      theater,
-      items: quantities,
-      total,
-      time: new Date().toLocaleString(),
-    };
+  const total = Object.entries(order).reduce((acc, [item, qty]) => {
+    const menuItem = menuItems.find((m) => m.name === item);
+    return acc + (menuItem?.price || 0) * qty;
+  }, 0);
 
-    const existing = JSON.parse(localStorage.getItem("orders") || "{}");
-    existing[seat] = orderData;
+  const handlePlaceOrder = () => {
+    const existing = JSON.parse(localStorage.getItem("orders")) || {};
+    existing[seat] = order;
     localStorage.setItem("orders", JSON.stringify(existing));
-
-    const paymentString = `PAYMENT|SEAT:${seat}|AMOUNT:${total}`;
-    const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(paymentString)}`;
-    setPaymentQR(qrUrl);
+    setShowQR(true);
   };
-
-  if (!seat || !theater) return <h3>Invalid QR Code</h3>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Thank you! Seat No. {seat}</h2>
-      <p>You will get your free tea and biscuit.</p>
-      <h3>If you'd like to order more, here is the menu:</h3>
+    <div className="order-container">
+      <h1 className="thankyou">Thank you! 🎉</h1>
+      <p className="welcome-msg">Seat Number: <strong>{seat}</strong></p>
+      <p className="offer-msg">You get a free Tea ☕ and Biscuit 🍪</p>
 
-      {menu.map((item) => (
-        <div key={item.item} style={{ marginBottom: "10px" }}>
-          {item.item} (₹{item.price}):{" "}
-          <input
-            type="number"
-            min="0"
-            value={quantities[item.item] || ""}
-            onChange={(e) => handleQtyChange(item.item, e.target.value)}
-            style={{ width: "60px" }}
-          />
-        </div>
-      ))}
+      <h2 className="menu-heading">Order More Items</h2>
 
-      <h4>Total: ₹{total}</h4>
-      <button onClick={handleOrder} style={{ padding: "10px", fontSize: "16px" }}>
-        Place Order
-      </button>
+      <div className="menu">
+        {menuItems.map((item) => (
+          <div className="menu-item" key={item.name}>
+            <div>
+              <h3>{item.name}</h3>
+              <p>₹{item.price}</p>
+            </div>
+            <div className="controls">
+              <button onClick={() => handleRemove(item)}>-</button>
+              <span>{order[item.name] || 0}</span>
+              <button onClick={() => handleAdd(item)}>+</button>
+            </div>
+          </div>
+        ))}
+      </div>
 
-      {paymentQR && (
-        <div style={{ marginTop: "20px" }}>
-          <h4>Scan to Pay:</h4>
-          <img src={paymentQR} alt="Payment QR" />
+      <div className="summary">
+        <h3>Order Summary</h3>
+        {Object.entries(order).length === 0 ? (
+          <p>No items selected yet.</p>
+        ) : (
+          <ul>
+            {Object.entries(order).map(([item, qty]) => (
+              <li key={item}>
+                {item} x {qty}
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="total">Total: ₹{total}</p>
+        <button className="place-order-btn" onClick={handlePlaceOrder}>
+          Place Order
+        </button>
+      </div>
+
+      {showQR && (
+        <div className="qr-modal">
+          <div className="qr-popup">
+            <h3>Scan to Pay</h3>
+            <QRCodeCanvas value={`upi://pay?pa=dummy@upi&am=${total}`} size={200} />
+            <button onClick={() => setShowQR(false)} className="close-btn">Close</button>
+          </div>
         </div>
       )}
     </div>
