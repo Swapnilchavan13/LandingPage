@@ -25,41 +25,47 @@ import { MerchantRegistration } from './Component/MerchantRegistration';
 import { Firstformdata } from './Component/Firstformdata';
 import { AllUsers } from './Component/Allusers';
 import { MerchantDetails } from './Component/MerchantDetails';
+import HomePage from './Qr/HomePage';
+import OrderPage from './Qr/OrderPage';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<RegistrationForm />} />
+          {/* <Route path="/" element={<RegistrationForm />} />
           <Route path="/clicker" element={<ClickerInfo />} />
-          <Route path="/otp" element={<OTPForm />} />
+          <Route path="/otp" element={<OTPForm />} /> */}
           {/* <Route path="/survey" element={<Survey />} /> */}
           {/* <Route path="/vans" element={<Vanswer />} /> */}
           {/* <Route path="/ians" element={<Ianswer />} /> */}
           {/* <Route path="/success" element={<Success />} /> */}
           {/* <Route path="/wallet" element={<WalletDetails />} /> */}
           {/* <Route path="/gamecms" element={<GameCms />} /> */}
-          <Route path="/cashbackfro" element={<CashBackFro />} />
+          {/* <Route path="/cashbackfro" element={<CashBackFro />} /> */}
           {/* <Route path="/like" element={<LikeButton />} /> */}
-          <Route path="/alldata" element={<Alldata />} />
-          <Route path="/allregisters" element={<RegisterActivate />} />
+          {/* <Route path="/alldata" element={<Alldata />} /> */}
+          {/* <Route path="/allregisters" element={<RegisterActivate />} /> */}
           {/* <Route path="/addgame" element={<AddGame />} /> */}
           {/* <Route path="/gamelist" element={<GameList />} /> */}
           {/* <Route path="/contest/:id" element={<ContestDetail />} /> */}
           {/* <Route path="/update/:id" element={<UpdateGame />} /> */}
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} />
           <Route path="/merchantregistration" element={<MerchantRegistration />} />
-
           <Route path="/merchantdetails" element={<MerchantDetails />} />
-
-
           <Route path="/allusers" element={<AllUsers />} />
-
 
           <Route path="/firstformdata" element={<Firstformdata />} />
 
-          <Route path="/research" element={<ProtectedRoute element={<Researchdataentry />} />} />
+          <Route path="/research" element={<ProtectedRoute element={<Researchdataentry />} />} /> */}
+
+
+          <Route path="/" element={<HomePage />} />
+          <Route path="/order" element={<OrderPage />} />
+
+
+
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>
